@@ -11,7 +11,7 @@
                
 
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-                <link rel="stylesheet" type="text/css" href="../css/sancionados.css">
+                <link rel="stylesheet" type="text/css" href="../static/css/sancionados.css">
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -74,7 +74,7 @@
                         <div class="tab-content">
                           <div class="tab-pane active" id="home">
                               <hr>
-                                <form class="form" action="##" method="post" id="registrationForm">
+                                <form class="form" action="##" method="post" id="registrationFormu">
                                     <div class="form-group">
                                         
                                         <div class="col-xs-6">
@@ -107,7 +107,7 @@
                                     <div class="form-group">
                                         
                                         <div class="col-xs-6">
-                                            <label for="puesto"><h4>Posición</h4></label>
+                                            <label for="posicion"><h4>Posición</h4></label>
                                             <input type="text" class="form-control" name="posicion" id="posicion" placeholder="Posición" title="Introduce la posición">
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@
                                     <div class="form-group">
                                         
                                         <div class="col-xs-6">
-                                          <label for="date"><h4>Fecha de Nacimiento</h4></label>
+                                          <label for="data"><h4>Fecha de Nacimiento</h4></label>
                                             <input type="date" class="form-control" name="nacimiento" id="nacimiento" placeholder="Fecha Nacimiento" title="Introduce la fecha Nacimiento">
                                         </div>
                                     </div>
@@ -151,8 +151,8 @@
                                     <input type="text" id="one" placeholder="Dorsal">
                                     <input type="text" id="two" placeholder="Nombre">
                                     <input type="number" id="three" placeholder="Goles">
-                                    <button onclick="add()">Add</button>
-                                    <button onclick="update()">Update</button>
+                                    <button onclick="add()">Añadir</button>
+                                    <button onclick="update()">Actualizar</button>
 
                                 <table class="table table-bordered">
                                     <thead>
@@ -213,19 +213,19 @@
                                             </thead>
                                             <tbody>
                                               <tr class="table-success">
-                                              <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../img/jugadores/01.png"> </td> 
+                                              <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../static/img/jugadores/01.png"> </td>
                                                 <td style="vertical-align:middle !important;">Federico garcía</td>
                                                 <td style="vertical-align:middle !important;">libre</td>
                                                 <td style="vertical-align:middle !important;">0</td>
                                               </tr>
                                               <tr class="table-danger">
-                                                <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../img/jugadores/02.png"> </td> 
+                                                <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../static/img/jugadores/02.png"> </td>
                                                 <td style="vertical-align:middle !important;">Eusebio madridanoa</td>
                                                 <td style="vertical-align:middle !important;">2 partidos</td>
                                                 <td style="vertical-align:middle !important;">1Roja</td>
                                               </tr>
                                               <tr class="table-warning">
-                                                <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../img/jugadores/03.png"> </td> 
+                                                <td style="vertical-align:middle !important;"><img class="foto_jugador" src="../static/img/jugadores/03.png"> </td>
                                                 <td style="vertical-align:middle !important;">Joselete eltirao</td>
                                                 <td style="vertical-align:middle !important;"></td>
                                                 <td style="vertical-align:middle !important;">1 amarilla</td>
@@ -248,8 +248,8 @@
               
                       </div><!--/col-9-->
                   </div><!--/row-->
-                  <script src="../js/regJugador.js"></script>
-                  <script src="../js/bootstrap.js"></script>
+                  <script src="../static/js/regJugador.js"></script>
+                  <script src="../static/js/bootstrap.js"></script>
                   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

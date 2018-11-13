@@ -1,0 +1,178 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Hidden brand</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{listar}">Listar</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+    </div>
+</nav>
+<!--fin de navBAR-->
+
+<!--Empieza el formulario-->
+<div class="container">
+<!--inicio lista de errores-->
+    <!-- llamamos al objeto del formulario.-->
+    <div th:object="${jugadorEntity}" th:remove="tag">
+        <!-- preguntamos si existe errores en algún campo-->
+        <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
+            role="alert">
+            <!--Recorremos la lista y si existe lo pintamos.-->
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+        </ul>
+<!--FIN lista de errores-->
+    <h1 class="text-secondary border border-success border-top-0 border-left-0 border-right-0" th:text="${titulo}"></h1>
+    <form th:action="@{/form}" th:object="${jugadorEntity}" method="post">
+
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{nombre}" class="form-control"  th:errorclass="'form-control alert-danger'"/>
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('nombre')}"
+                       th:errors="*{nombre}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">1º Apellido</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{apellido1}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('apellido1')}"
+                       th:errors="*{apellido1}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">2º apellido</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{apellido2}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('apellido2')}"
+                       th:errors="*{apellido2}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">dni</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{dni}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('dni')}"
+                       th:errors="*{dni}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">dorsal</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{dorsal}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('dorsal')}"
+                       th:errors="*{dorsal}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class=" col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-6">
+                <input type="text" th:field="*{mail}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('mail')}"
+                       th:errors="*{mail}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">inscripcion</label>
+            <div class="col-sm-6">
+                <input type="text"  th:field="*{inscripcion}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('inscripcion')}"
+                       th:errors="*{inscripcion}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">nacimiento</label>
+            <div class="col-sm-6">
+                <input type="text"  th:field="*{nacimiento}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('nacimiento')}"
+                       th:errors="*{nacimiento}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">edad</label>
+            <div class="col-sm-6">
+                <input type="text"  th:field="*{edad}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('edad')}"
+                       th:errors="*{edad}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">nacionalidad</label>
+            <div class="col-sm-6">
+                <input type="text"  th:field="*{nacionalidad}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('nacionalidad')}"
+                       th:errors="*{nacionalidad}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">telefono</label>
+            <div class="col-sm-6">
+                <input type="text"  th:field="*{telefono}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+                <!--Con la etiqueta de th:if preguntamos si tiene errores el campo en concreto y los mostramos-->
+                <small class="form-text text-danger"
+                       th:if="${#fields.hasErrors('telefono')}"
+                       th:errors="*{telefono}">
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Crear Jugador" class="btn btn-primary"/>
+        </div>
+       <!-- <input type="hidden" th:field="*{id}"/> se usa para pasar el ID al back aunque es poco seguro.-->
+    </form>
+</div>
+<!--Termina el formulario-->
+    <footer th:replace="layout/layout :: footer"></footer>
+</div>
+</body>
+</html>
