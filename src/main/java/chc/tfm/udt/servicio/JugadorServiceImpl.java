@@ -4,6 +4,8 @@ import chc.tfm.udt.repositorios.JugadorDAO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,12 @@ public class JugadorServiceImpl implements IJugadorService {
     public List<JugadorEntity> findAll() {
         return (List<JugadorEntity>)jugadorDAO.findAll();
     }
+
+    @Override
+    public Page<JugadorEntity> findAll(Pageable pageable) {
+        return jugadorDAO.findAll(pageable);
+    }
+
     @Override
     @Transactional(readOnly = true)
     public JugadorEntity findOne(Integer id) {
