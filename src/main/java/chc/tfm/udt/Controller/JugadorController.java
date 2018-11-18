@@ -3,6 +3,7 @@ package chc.tfm.udt.Controller;
 
 import chc.tfm.udt.entidades.JugadorEntity;
 import chc.tfm.udt.servicio.IJugadorService;
+import chc.tfm.udt.utils.paginator.PageRender;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -33,14 +34,19 @@ public class JugadorController {
     /**
      * USAMOS ESTE METODO PARA LISTAR TODOS LOS JUGADORES QUE ESTAN EN BASE DE DATOS.
      * @param model USAMOS ESTE OBJETO PARA PASAR DATOS A LA VISTA.
+     * CREAMOS EL OBJETO PAGEABLE Y LE PASAMOS UN NUMERO DE PAGINAS PARA MOSTRAR, LE ASIGNAMOS UN VALOR POR DEFECTO Y UNA VARIABLE.
+     *
      * @return
      */
     @RequestMapping(value = "/listar", method = RequestMethod.GET)
     public String listar(@RequestParam(name = "page", defaultValue = "0") int page, Model model){
-        Pageable requestPageable = PageRequest.of(page,5);
-        Page<JugadorEntity> jugadorEntityPage = jugadorService.findAll(requestPageable);
+        Pageable pageRequest = PageRequest.of(page,5);
+        Page<JugadorEntity> jugadorEntityPage = jugadorService.findAll(pageRequest);
+        PageRender<JugadorEntity> pageRender = new PageRender<>("/listar", jugadorEntityPage);
+
         model.addAttribute("titulo","listado de jugadores");
-        model.addAttribute("jugadores",jugadorService.findAll());
+        model.addAttribute("jugadores", jugadorEntityPage);
+        model.addAttribute("page",pageRender);
         return "listar";
     }
 
@@ -69,7 +75,7 @@ public class JugadorController {
     @RequestMapping(value = "/form/{id}")
     public String editar (@PathVariable(value = "id") Integer id, Map<String , Object> model,RedirectAttributes push){
         JugadorEntity jugadorEntity = null;
-        //Comprobamos que el id es superior a 0, si no no existe el jugador.
+        //Comprobamos que el id es superior a 0, si no, no existe el jugador.
         if(id >0){
             jugadorEntity = jugadorService.findOne(id);
             // Si el jugador es null , no existe en base de datos.
@@ -117,7 +123,7 @@ public class JugadorController {
     /**
      * Metodo que utilizaremos para llamar al servicio de eliminar, recogiendo el id de la vista.
      * @param id
-     * REDIRECTATRIBUTES : USAMOS ESTE OBJETO PARA MOSTRAR AL USUARIO UN MENSAJE DE SUCCESS O ERROR AL REALIZAR 1 ACCIÓN.
+     * REDIRECTATRIBUTES : USAMOS ESTE OBJETO PARA MOSTRAR AL USUARIO UN MENSAJE POR PANTALLA DE SUCCESS O ERROR AL REALIZAR 1 ACCIÓN.
      * @return
      */
     @RequestMapping(value = "/eliminar/{id}")

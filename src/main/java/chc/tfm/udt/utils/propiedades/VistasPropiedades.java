@@ -1,4 +1,4 @@
-package chc.tfm.udt.propiedades;
+package chc.tfm.udt.utils.propiedades;
 
 import org.springframework.beans.factory.annotation.Value;
 

@@ -12,37 +12,40 @@
             <h4 class="card-title">
                 <a th:href="@{/form}" class="btn btn-primary btn-xs">crear Jugador</a>
             </h4>
-<table class="table table-striped">
-    <thead>
-    <tr>
-      <!--  <th>id</th>-->
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Dorsal</th>
-        <th>Inscripicon</th>
-        <th>editar</th>
-        <th>eliminar</th>
-    </tr>
-    </thead>
-    <tbody>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <!--  <th>id</th>-->
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Dorsal</th>
+                    <th>Inscripicon</th>
+                    <th>editar</th>
+                    <th>eliminar</th>
+                </tr>
+                </thead>
+                <tbody>
 
-    <tr th:each="jugador: ${jugadores}">
-      <!--  <td type="hidden" th:text="${jugador.id}"></td>-->
-        <td th:text="${jugador.nombre}"></td>
-        <td th:text="${jugador.apellido1}"></td>
-        <td th:text="${jugador.dorsal}"></td>
-        <td th:text="${jugador.inscripcion}"></td>
-        <td><a class="btn btn-primary btn-xs" th:href="@{/form/} + ${jugador.id}" th:text="'editar'"></a>  </td>
-        <td><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${jugador.id}" th:text="'eliminar'"
-                onclick="return confirm('¿Estas seguro que quieres elimiar?')"></a> </td>
+                <tr th:each="jugador: ${jugadores}">
+                    <!--  <td type="hidden" th:text="${jugador.id}"></td>-->
+                    <td th:text="${jugador.nombre}"></td>
+                    <td th:text="${jugador.apellido1}"></td>
+                    <td th:text="${jugador.dorsal}"></td>
+                    <td th:text="${jugador.inscripcion}"></td>
+                    <td><a class="btn btn-primary btn-xs" th:href="@{/form/} + ${jugador.id}" th:text="'editar'"></a>
+                    </td>
+                    <td><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${jugador.id}" th:text="'eliminar'"
+                           onclick="return confirm('¿Estas seguro que quieres elimiar?')"></a></td>
 
-    </tr>
-    </tbody>
+                </tr>
+                </tbody>
 
-</table>
+            </table>
+            <nav th:replace="paginador :: paginator"></nav>
 
-</div>
-</div>
+
+        </div>
+    </div>
 
 
 </div>
