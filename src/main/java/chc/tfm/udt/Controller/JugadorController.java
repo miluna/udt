@@ -7,6 +7,8 @@ import chc.tfm.udt.utils.paginator.PageRender;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
+import java.util.UUID;
 
 @SessionAttributes("jugadorEntity")
 @Controller
@@ -35,6 +38,7 @@ public class JugadorController {
 
     @Autowired
     private IJugadorService jugadorService;
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     /**
      *
@@ -139,21 +143,35 @@ public class JugadorController {
         }
         //Preguntamos que si no esta vacio el objeto foto.
         if(!foto.isEmpty()){
-            /*Objeto que nos permite recuperar la ruta donde van a estar los archivos para usarlo desde el propio proyecto*/
-                Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
-              //Creamos un string para poder trabajar con las imagenes en este directorio
-            String rootPath = directorioRecursos.toFile().getAbsolutePath();
-            //Creamos un STRING con una ruta externa al proyecto
-            //String rootPath =
+            /*Objeto que nos permite recuperar la ruta donde van a estar los archivos para usarlo desde el propio proyecto
+              //  Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
+              Creamos un string para poder trabajar con las imagenes en este directorio
+           // String rootPath = directorioRecursos.toFile().getAbsolutePath();
+              Creamos un STRING con una ruta externa al proyecto otra forma de hacerlo mejor*/
+           // String rootPath = "D://worktfm//uploads";
+
+            /*   Almacenamos en esta variable la traducción de UUID ( "universally unique identifier" ).random para que no
+                 se repitan los nombres en nuestro servidor , asi evitar que se sobrescriban.*/
+            String nombreUnicoDeArchivo = UUID.randomUUID().toString() + " _ "+ foto.getOriginalFilename();
+            //AHORA VCON EL OBJETO PATH VAMOS A CREAR RUTAS TOTALMETE ABSTRAIDAS DEL CODIGO PARA UNA MEJOR GESTIÓN.
+            Path rootPath = Paths.get("uploads").resolve(nombreUnicoDeArchivo);
+            //obtenemos la ruta absoluta del proyecto para no encontrar errores.
+            Path rootAbsolutPath = rootPath.toAbsolutePath();
+            log.info("rootPath" + rootPath);
+            log.info("rootAbsolutPath" + rootAbsolutPath);
             try {
-                //recuperamos los bytes de la foto para ajustarlo al limite de 10mb que hemos marcado en propiedades
-                byte[] bytes = foto.getBytes();
-                // recuperamos la URI completa de la foto.
-                Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
-                // Escribimos la ruta completa y los bytes en el directorio UPLOAD.
-                Files.write(rutaCompleta,bytes);
+/*recuperamos los bytes de la foto para ajustarlo al limite de 10mb que hemos marcado en propiedades
+byte[] bytes = foto.getBytes();
+recuperamos la URI completa de la foto.
+Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+Escribimos la ruta completa y los bytes en el directorio UPLOAD.
+Files.write(rutaCompleta,bytes);
+Usamos el Files.copy, para obtener el inputStream para poder copiarlo al nuevo directorio, también se
+ puede hacer con el write*/
+                //Con el metodo copy lo que hacemos es copiar la ruta a través del inputStream de entrada y la ruta absoluta.
+                Files.copy(foto.getInputStream(), rootAbsolutPath);
                 //Mostramos un mensaje al usuario.
-                push.addFlashAttribute("info", "Ha sido subida correctamente," + foto.getOriginalFilename()+"");
+                push.addFlashAttribute("info", "Ha sido subida correctamente," + nombreUnicoDeArchivo+"");
                 //Pasamos la foto a la entity para que quede almacenada en base de datos.
                 jugadorEntity.setFoto(foto.getOriginalFilename());
             } catch (IOException e) {
