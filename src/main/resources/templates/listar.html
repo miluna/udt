@@ -20,21 +20,24 @@
                     <th>Apellido</th>
                     <th>Dorsal</th>
                     <th>Inscripicon</th>
-                    <th>editar</th>
-                    <th>eliminar</th>
+                    <th>Editar</th>
+                    <th>Detalle</th>
+                    <th>Eliminar</th>
                 </tr>
                 </thead>
                 <tbody>
 
                 <tr th:each="jugador: ${jugadores}">
-                    <!--  <td type="hidden" th:text="${jugador.id}"></td>-->
+                   <!-- <td><a class="btn btn-primary btn-xs" th:href="@{/ver/} + ${jugador.id}" th:text="${jugador.id}"></a></td>-->
                     <td th:text="${jugador.nombre}"></td>
                     <td th:text="${jugador.apellido1}"></td>
                     <td th:text="${jugador.dorsal}"></td>
                     <td th:text="${jugador.inscripcion}"></td>
-                    <td><a class="btn btn-primary btn-xs" th:href="@{/form/} + ${jugador.id}" th:text="'editar'"></a>
+                    <td><a class="btn btn-primary btn-xs" th:href="@{/form/} + ${jugador.id}" th:text="'Editar'"></a>
                     </td>
-                    <td><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${jugador.id}" th:text="'eliminar'"
+                    <td><a class="btn btn-warning btn-xs" th:href="@{/ver/} + ${jugador.id}" th:text="'Detalle'"></a>
+                    </td>
+                    <td><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${jugador.id}" th:text="'Eliminar'"
                            onclick="return confirm('¿Estas seguro que quieres elimiar?')"></a></td>
 
                 </tr>

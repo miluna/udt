@@ -17,9 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 
 @SessionAttributes("jugadorEntity")
@@ -30,6 +35,25 @@ public class JugadorController {
 
     @Autowired
     private IJugadorService jugadorService;
+
+    /**
+     *
+     * @param id El identificador del cliente
+     * @param model Pasamos datos a la vista con el objeto MAP, clave Valor.
+     * @param push REDIRECTATTributes para mensajes PUSH en la vista.
+     * @return
+     */
+    @GetMapping(value = "/ver/{id}")
+    public String ver(@PathVariable(value = "id") Integer id , Map<String,Object> model, RedirectAttributes push){
+        JugadorEntity jugadorEntity = jugadorService.findOne(id);
+        if(jugadorEntity == null){
+            push.addFlashAttribute("error", "El jugador no existe en la base de datos");
+            return "redirect/listar";
+        }
+        model.put("jugadorEntity",jugadorEntity);
+        model.put("titulo","Detalle jugador: " + jugadorEntity.getNombre());
+        return "ver";
+    }
 
     /**
      * USAMOS ESTE METODO PARA LISTAR TODOS LOS JUGADORES QUE ESTAN EN BASE DE DATOS.
@@ -51,7 +75,7 @@ public class JugadorController {
     }
 
     /**
-     * Metodo que se encarga de mostrar el formulario al usuario.
+     * Metodo que se encarga de conectar el formulario de la vista con el back.
      * @param model
      * @return
      */
@@ -101,17 +125,43 @@ public class JugadorController {
      * BINDINGRESULT usamos este objeto para comprobar que se cumplen los requisitos de los campos y mostrar 1 mensaje.
      * REDIRECTATRIBUTES : USAMOS ESTE OBJETO PARA MOSTRAR AL USUARIO UN MENSAJE DE SUCCESS O ERROR AL REALIZAR 1 ACCIÓN.
      * SESSIONSTATUS : USAMOS ESTE OBJETO PARA OBTENER UN STATUS DE LA SESIÓN Y PODER TRABAJAR CON EL ID DE FORMA SEGURA.
+     * @RequestParam(FILE) MultipartFile, Inyectamos de forma automatica un archivo que estamos enviando al servidor.
      *
      */
     @RequestMapping(value = "/form", method = RequestMethod.POST)
-    public String guardar(@Valid JugadorEntity jugadorEntity, BindingResult result, Model model, RedirectAttributes push, SessionStatus status){
+    public String guardar(@Valid    JugadorEntity jugadorEntity, BindingResult result,
+                          Model model, RedirectAttributes push,
+                          SessionStatus status, @RequestParam("file")MultipartFile foto){
         //Si el resultado contiene errores , retornamos al formulario
         if(result.hasErrors()) {
             model.addAttribute("titulo", "Formulario de jugador");
             return "form";
         }
+        //Preguntamos que si no esta vacio el objeto foto.
+        if(!foto.isEmpty()){
+            /*Objeto que nos permite recuperar la ruta donde van a estar los archivos para usarlo desde el propio proyecto*/
+                Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
+              //Creamos un string para poder trabajar con las imagenes en este directorio
+            String rootPath = directorioRecursos.toFile().getAbsolutePath();
+            //Creamos un STRING con una ruta externa al proyecto
+            //String rootPath =
+            try {
+                //recuperamos los bytes de la foto para ajustarlo al limite de 10mb que hemos marcado en propiedades
+                byte[] bytes = foto.getBytes();
+                // recuperamos la URI completa de la foto.
+                Path rutaCompleta = Paths.get(rootPath + "//" + foto.getOriginalFilename());
+                // Escribimos la ruta completa y los bytes en el directorio UPLOAD.
+                Files.write(rutaCompleta,bytes);
+                //Mostramos un mensaje al usuario.
+                push.addFlashAttribute("info", "Ha sido subida correctamente," + foto.getOriginalFilename()+"");
+                //Pasamos la foto a la entity para que quede almacenada en base de datos.
+                jugadorEntity.setFoto(foto.getOriginalFilename());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         // CONDICIONAL QUE INDICA SI EL ID ES DISTINTO DE 0 SE ESTA EDITANDO Y SI ES 0 SE ESTA CREANDO PARA MOSTRAR EL MENSAJE
-        String mensajePush = (jugadorEntity.getId() != 0)? "Jugador Editado con exito" : "Jugador creado con exito";
+        String mensajePush = (jugadorEntity.getId() != null)? "Jugador Editado con exito" : "Jugador creado con exito";
 
         jugadorService.save(jugadorEntity);
         //CERRAMOS LA SESSIÓN UNA VEZ COMPLETADO EL PROCESO DE GUARDADO.

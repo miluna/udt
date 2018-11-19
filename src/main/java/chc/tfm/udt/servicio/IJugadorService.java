@@ -17,6 +17,7 @@ public interface IJugadorService {
     Page<JugadorEntity> findAll(Pageable pageable);
 
 
+
     /**
      * Metodo que utilizaremos para almacenar 1 jugador en la base de datos
      * @param jugadorEntity
@@ -29,6 +30,8 @@ public interface IJugadorService {
      * @return
      */
     JugadorEntity findOne(Integer id);
+
+    JugadorEntity FindByNombre(String nombre);
 
     /**
      * Metodo que utilizaremos para borrar por id haciendo uso del findOne

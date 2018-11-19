@@ -83,7 +83,7 @@ $(document).ready(function() {
     }
     
 
-    $(".file-upload").on('change', function(){
+    $(".file-uploads").on('change', function(){
         readURL(this);
     });
 });

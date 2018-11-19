@@ -6,4 +6,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JugadorDAO extends JpaRepository<JugadorEntity, Integer> {
+    /**
+     * Metodo creado para buscar por nombre... se pueden crear metodos para buscar por cualquier atributo de la entidad.
+     * @param nombre
+     * @return
+     */
+    JugadorEntity findByNombre(String nombre);
 }

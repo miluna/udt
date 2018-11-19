@@ -40,6 +40,11 @@ public class JugadorServiceImpl implements IJugadorService {
     }
 
     @Override
+    public JugadorEntity FindByNombre(String nombre) {
+        return jugadorDAO.findByNombre(nombre);
+    }
+
+    @Override
     @Transactional
     public void save(JugadorEntity jugadorEntity) {
         jugadorDAO.save(jugadorEntity);

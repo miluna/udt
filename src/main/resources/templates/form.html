@@ -31,19 +31,25 @@
 <!--fin de navBAR-->
 
 <!--Empieza el formulario-->
+
 <div class="container">
 <!--inicio lista de errores-->
+
     <!-- llamamos al objeto del formulario.-->
+
     <div th:object="${jugadorEntity}" th:remove="tag">
         <!-- preguntamos si existe errores en algún campo-->
+
         <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger"
             role="alert">
             <!--Recorremos la lista y si existe lo pintamos.-->
+
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
         </ul>
 <!--FIN lista de errores-->
+<!--COMIENZO DEL FORMULARIO DE ENTRADA-->
     <h1 class="text-secondary border border-success border-top-0 border-left-0 border-right-0" th:text="${titulo}"></h1>
-    <form th:action="@{/form}" th:object="${jugadorEntity}" method="post">
+    <form th:action="@{/form}" th:object="${jugadorEntity}" method="post" enctype="multipart/form-data">
 
         <div class="form-group row">
             <label class=" col-sm-2 col-form-label">Nombre</label>
@@ -165,13 +171,20 @@
                 </small>
             </div>
         </div>
+        <div class="form-group row">
+            <label for="file" class="col-sm-2 col-form-label">Foto</label>
+            <div class="col-sm-6">
+                <input type="file" name="file" class="form-control"/>
+            </div>
+        </div>
         <div class="form-group">
             <input type="submit" value="Crear Jugador" class="btn btn-primary"/>
         </div>
-       <!-- <input type="hidden" th:field="*{id}"/> se usa para pasar el ID al back aunque es poco seguro.-->
+       <!-- <input type="hidden" th:field="*{id}"/> se usa para pasar el ID al back aunque es poco seguro, POR
+       ESE MOTIVO USAMES EN EL BACK EL OBJETO SESSIÓN-->
     </form>
 </div>
-<!--Termina el formulario-->
+    <!--TERMINA DEL FORMULARIO DE ENTRADA-->
     <footer th:replace="layout/layout :: footer"></footer>
 </div>
 </body>

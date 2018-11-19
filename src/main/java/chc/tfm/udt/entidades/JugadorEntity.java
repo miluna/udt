@@ -24,7 +24,7 @@ public class JugadorEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idjugadores")
-    private int id;
+    private Integer id;
     @NotEmpty
     @Column(name = "dni")
     private String dni;
@@ -63,6 +63,8 @@ public class JugadorEntity implements Serializable {
     @NotEmpty
     @Column(name = "dorsal")
     private String dorsal;
+    @Column(name = "foto")
+    private String foto;
     /*
        @Column(name = "equipos_idequipos")
         @ManyToOne(targetEntity = EquipoEntity.class)

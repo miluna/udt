@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+<header th:replace="layout/layout :: header"></header>
+<div class="container py-4">
+
+    <div class="card bg-light">
+        <div class="card-header" th:text="${titulo}"></div>
+        <div class="card-body">
+            <!--#strings.length El objeto Helpers utilitis de strings th:if="${#strings.length(jugadorEntity.foto) > 0}"
+             que nos proporciona muchos metodos para validar y usar en la vista como en el back.-->
+            <img th:if="${jugadorEntity.foto != null && #strings.length(jugadorEntity.foto) > 0}" class="img-thumbnail rounded float-left" style="max-width: 25%;"
+                            th:src="@{'/uploads/' + ${jugadorEntity.foto}}"
+                            th:alt="${jugadorEntity.foto}"/>
+            <ul class="list-group">
+                <li class="list-group-item" th:text="${jugadorEntity.nombre}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.apellido1}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.apellido2}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.dni}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.dorsal}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.mail}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.inscripcion}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.nacimiento}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.edad}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.nacionalidad}"></li>
+                <li class="list-group-item" th:text="${jugadorEntity.telefono}"></li>
+
+
+
+
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
