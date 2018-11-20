@@ -4,16 +4,17 @@ package chc.tfm.udt.Controller;
 import chc.tfm.udt.entidades.JugadorEntity;
 import chc.tfm.udt.servicio.IJugadorService;
 import chc.tfm.udt.utils.paginator.PageRender;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -34,11 +37,52 @@ import java.util.UUID;
 @Controller
 public class JugadorController {
 
-    private static final Log logger = LogFactory.getLog(JugadorController.class);
-
     @Autowired
     private IJugadorService jugadorService;
-    private Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final static String UPLOADS_FOLDER = "uploads";
+
+    //Metodo handler que se encarga de recibir la imagen como parametro , la convierte a un recurso con imputStrem.
+    //y la carga en la respuesta Http con ResponseEntity. con el parametro filename le añadimos :.+ con esta expresion regular,
+    // que spring no borre o no trunque la extension del archivo, para pasar el valor del parametro sin la extension.
+    //Resource es una interfaz que representa cualquier archivo de la aplicación
+
+    /**
+     * Metodo handler que se encarga de recibir la imagen como parametro , la convierte a un recurso con imputStrem.
+     * cargamos de forma programatica y despues se pasa a la respuesta anexandola al body, con el mapping uploads definido
+     * en la vista.
+     * @param filename String que va a contener el nombre de la foto, añadimos la expresión regular :.+ para la extensión.
+     * Resource es una interfaz de spring que usamos para retornar un recurso
+     * @PathVariable ; lo usamos para pasar el archivo.
+     * Path lo usamos para obtener una uri para poder cargar esta imagen con la ruta absoluta.
+     * .resolve para concatenar la ruta de la imagén al Path principal .toAbsolutePath lo usamos para obtener la ruta absoluta.
+     * Resource: Creamos el recurso una urlResource y le añadimos el Pathc convertida a uri con .toUri
+     * @return
+     */
+    @GetMapping(value = "/uploads/{filename:.+}")
+    public ResponseEntity<Resource> verFoto(@PathVariable String filename){
+      Path pathFoto = Paths.get(UPLOADS_FOLDER).resolve(filename).toAbsolutePath();
+      log.info("pathFoto " + pathFoto );
+        Resource recurso = null;
+        try {
+            recurso = new UrlResource(pathFoto.toUri());
+            //Creamos un condicional para controlar las excepciones
+            if(!recurso.exists() || !recurso.isReadable()){
+                //Si no se puede leer o no existe lanzamos la excepión con un mensaje y el nombre de la imagén.
+                throw new RuntimeException("Error no se puede cargar la imagen " + pathFoto.toString());
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        /**ResponseEntity.ok y le añadimos un header para adjutar la imagen en la respuesta con attachment.
+            llamamos a recurso para recuperar el filname con el metodo get que nos proporciona la interfaz.
+            Añadimos al body el recurso.
+            @CONTENT_DISPOSITION : indicamos que el contenido es un archivo adjunto.
+         */
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" +  recurso.getFilename() +"\"")
+                .body(recurso);
+    }
 
     /**
      *
@@ -136,6 +180,7 @@ public class JugadorController {
     public String guardar(@Valid    JugadorEntity jugadorEntity, BindingResult result,
                           Model model, RedirectAttributes push,
                           SessionStatus status, @RequestParam("file")MultipartFile foto){
+
         //Si el resultado contiene errores , retornamos al formulario
         if(result.hasErrors()) {
             model.addAttribute("titulo", "Formulario de jugador");
@@ -143,6 +188,21 @@ public class JugadorController {
         }
         //Preguntamos que si no esta vacio el objeto foto.
         if(!foto.isEmpty()){
+            //comprobamos que el jugador no viene vacio ni es null para proceder al borrado de la foto con el objeto File
+            if(
+                    jugadorEntity.getId() != null
+                &&  jugadorEntity.getId() > 0
+                &&  jugadorEntity.getFoto() != null
+                &&  jugadorEntity.getFoto().length() > 0)
+            {
+                Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(jugadorEntity.getFoto()).toAbsolutePath();
+                File archivo = rootPath.toFile();
+                //comprobamos que el archivo existe  y que se puede leer para asegurarnos de que si tiene foto
+                    if(archivo.exists() && archivo.canRead()){
+                        archivo.delete(); // Con esto conseguimos borrar la foto antes de insertar la nueva..
+                    }
+
+            }
             /*Objeto que nos permite recuperar la ruta donde van a estar los archivos para usarlo desde el propio proyecto
               //  Path directorioRecursos = Paths.get("src//main//resources//static/uploads");
               Creamos un string para poder trabajar con las imagenes en este directorio
@@ -152,13 +212,13 @@ public class JugadorController {
 
             /*   Almacenamos en esta variable la traducción de UUID ( "universally unique identifier" ).random para que no
                  se repitan los nombres en nuestro servidor , asi evitar que se sobrescriban.*/
-            String nombreUnicoDeArchivo = UUID.randomUUID().toString() + " _ "+ foto.getOriginalFilename();
+            String nombreUnicoDeArchivo = UUID.randomUUID().toString() + "_" + foto.getOriginalFilename();
             //AHORA VCON EL OBJETO PATH VAMOS A CREAR RUTAS TOTALMETE ABSTRAIDAS DEL CODIGO PARA UNA MEJOR GESTIÓN.
-            Path rootPath = Paths.get("uploads").resolve(nombreUnicoDeArchivo);
+            Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(nombreUnicoDeArchivo);
             //obtenemos la ruta absoluta del proyecto para no encontrar errores.
             Path rootAbsolutPath = rootPath.toAbsolutePath();
-            log.info("rootPath" + rootPath);
-            log.info("rootAbsolutPath" + rootAbsolutPath);
+            log.info("rootPath " + rootPath);
+            log.info("rootAbsolutPath " + rootAbsolutPath);
             try {
 /*recuperamos los bytes de la foto para ajustarlo al limite de 10mb que hemos marcado en propiedades
 byte[] bytes = foto.getBytes();
@@ -173,7 +233,7 @@ Usamos el Files.copy, para obtener el inputStream para poder copiarlo al nuevo d
                 //Mostramos un mensaje al usuario.
                 push.addFlashAttribute("info", "Ha sido subida correctamente," + nombreUnicoDeArchivo+"");
                 //Pasamos la foto a la entity para que quede almacenada en base de datos.
-                jugadorEntity.setFoto(foto.getOriginalFilename());
+                jugadorEntity.setFoto(nombreUnicoDeArchivo);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -197,8 +257,18 @@ Usamos el Files.copy, para obtener el inputStream para poder copiarlo al nuevo d
     @RequestMapping(value = "/eliminar/{id}")
     public String eliminar(@PathVariable(value = "id") Integer id, RedirectAttributes push){
         if(id > 0){
+            JugadorEntity jugadorEntity = jugadorService.findOne(id);
+
             jugadorService.delete(id);
             push.addFlashAttribute("success","Jugador eliminado con exito");
+            // Al eliminar el jugador debemos borrar su foto del servidor para evitar que queden archivos residuales.
+            Path rootPath = Paths.get(UPLOADS_FOLDER).resolve(jugadorEntity.getFoto()).toAbsolutePath(); // recuperamos la ruta absoluta
+            File archivo = rootPath.toFile();
+            if(archivo.exists() && archivo.canRead()){
+                if(archivo.delete()){ // borramos el archivo y mostramos un mensaje push al usuario.
+                    push.addFlashAttribute("info","Foto " + jugadorEntity.getFoto()+ " Foto eliminada con exito ");
+                }
+            }
         }
         return "redirect:/listar";
     }
