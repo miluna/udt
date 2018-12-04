@@ -112,7 +112,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
     }
 
     /**
-     * Este metodo se va a encargar de eliminar todo el directorio donde estan almacenados los recursos./ lo usarmos para desarrollo
+     * Este metodo se va a encargar de eliminar el directorio donde estan almacenados los recursos.lo usarmos para desarrollo
      */
     @Override
     public void deleteAll() {

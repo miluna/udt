@@ -3,7 +3,6 @@ package chc.tfm.udt.entidades;
 import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,7 +11,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -48,6 +49,7 @@ public class JugadorEntity implements Serializable {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "nacimiento")
+    @Temporal(TemporalType.DATE)
     private Date nacimiento;
     @NotEmpty
     @Column(name = "edad")
@@ -59,17 +61,19 @@ public class JugadorEntity implements Serializable {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "inscripcion")
+    @Temporal(TemporalType.DATE)
     private Date inscripcion;
     @NotEmpty
     @Column(name = "dorsal")
     private String dorsal;
     @Column(name = "foto")
     private String foto;
-    /*
-       @Column(name = "equipos_idequipos")
-        @ManyToOne(targetEntity = EquipoEntity.class)
-        private EquipoEntity equipo;
-    */
+    /** Un jugador muchas donaciones
+     * FetchTypy.LAZY atributo perezoso Cada vez que se haga 1 petición de 1 jugador no se hara la petición a las donaciones si no se expresa.
+     * CascadeType.All: Con esto conseguimos que si borramos 1 jugador se borren también sus donaciones.
+     * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas*/
+    @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DonacionEntity> donaciones;
 
     /**
      * Metodo que se invoca justo antes de hacer la inserción en base de datos para generar la fecha.
@@ -78,8 +82,9 @@ public class JugadorEntity implements Serializable {
 //    public void prePersist(){
 //        inscripcion = new Date();
 //    }
-    public JugadorEntity(){
 
+    public JugadorEntity(){
+        this.donaciones = new ArrayList<>();
     }
 
     public JugadorEntity(Jugador jugador) {
@@ -87,5 +92,9 @@ public class JugadorEntity implements Serializable {
         this.apellido1 = jugador.getApellido1();
         this.edad = jugador.getEdad();
         this.dorsal = jugador.getDorsal();
+    }
+    // MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.
+    public void addDonacion(DonacionEntity donacionEntity){
+        donaciones.add(donacionEntity);
     }
 }
