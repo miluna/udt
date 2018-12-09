@@ -1,6 +1,7 @@
 package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.entidades.JugadorEntity;
+import chc.tfm.udt.entidades.ProductoEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,6 +14,12 @@ public interface IJugadorService {
      * @return
      */
     List<JugadorEntity> findAll();
+
+    /**
+     * Metodo para recuperar toda la lista de paginas.
+     * @param pageable
+     * @return
+     */
 
     Page<JugadorEntity> findAll(Pageable pageable);
 
@@ -31,12 +38,26 @@ public interface IJugadorService {
      */
     JugadorEntity findOne(Integer id);
 
-    JugadorEntity FindByNombre(String nombre);
+    /**
+     * Metodo para buscar por nombre a los jugadores
+     * @param nombre
+     * @return
+     */
+
+  //  JugadorEntity findByNombre(String nombre);
 
     /**
      * Metodo que utilizaremos para borrar por id haciendo uso del findOne
      * @param id
      */
     void delete (Integer id);
+
+    /**
+     * Metodo que usaremos para retornar una lista de productos , buscados por nombre
+     * @param term
+     * @return
+     */
+
+     List<ProductoEntity> findByNombre(String term);
 
 }

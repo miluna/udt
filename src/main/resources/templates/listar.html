@@ -22,6 +22,7 @@
                     <th>Inscripicon</th>
                     <th>Editar</th>
                     <th>Detalle</th>
+                    <th>Crear Factura</th>
                     <th>Eliminar</th>
                 </tr>
                 </thead>
@@ -37,6 +38,8 @@
                     </td>
                     <td><a class="btn btn-warning btn-xs" th:href="@{/ver/} + ${jugador.id}" th:text="'Detalle'"></a>
                     </td>
+                    <td><a class="btn btn-warning btn-xs" th:href="@{'/donacion/form/' + ${jugador.id}}" th:text="'Crear Factura'"></a></td>
+
                     <td><a class="btn btn-danger btn-xs" th:href="@{/eliminar/} + ${jugador.id}" th:text="'Eliminar'"
                            onclick="return confirm('¿Estas seguro que quieres elimiar?')"></a></td>
 

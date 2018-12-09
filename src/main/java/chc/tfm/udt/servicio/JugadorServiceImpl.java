@@ -1,5 +1,7 @@
 package chc.tfm.udt.servicio;
 import chc.tfm.udt.entidades.JugadorEntity;
+import chc.tfm.udt.entidades.ProductoEntity;
+import chc.tfm.udt.repositorios.IProductoDAO;
 import chc.tfm.udt.repositorios.JugadorDAO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +23,8 @@ public class JugadorServiceImpl implements IJugadorService {
 
     @Autowired
     private JugadorDAO jugadorDAO;
+    @Autowired
+    private IProductoDAO productoDAO;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,10 +43,7 @@ public class JugadorServiceImpl implements IJugadorService {
         return jugadorDAO.findById(id).orElse(null);
     }
 
-    @Override
-    public JugadorEntity FindByNombre(String nombre) {
-        return jugadorDAO.findByNombre(nombre);
-    }
+
 
     @Override
     @Transactional
@@ -54,5 +55,10 @@ public class JugadorServiceImpl implements IJugadorService {
     public void delete(Integer id) {
         jugadorDAO.deleteById(id);
 
+    }
+
+    @Override
+    public List<ProductoEntity> findByNombre(String term) {
+        return productoDAO.findByNombreLikeIgnoreCase("%"+term+"%");
     }
 }

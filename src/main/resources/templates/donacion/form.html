@@ -11,9 +11,12 @@
     <div class="card bg-light">
         <div class="card-header" th:text="${tituloDetalle}"></div>
         <div class="card-body">
-            <h4 class="card-title"></h4>
-            <form th:action="@{donacion/form}" } th:object="${donacion}" method="post"/>
-
+            <h4 class="card-title">
+                <a class="btn btn-light btn-xs" th:href="@{'/ver/' + ${donacion.jugadorEntity.id}}" th:text="'&laquo; volver'"></a>
+            </h4>
+            <!-- formulario de entrada de factura.-->
+            <form th:action="@{/donacion/form/}" th:object="${donacion}" method="post"/>
+            <!-- Recogemos los datos del jugador y su apellido, desabilitamos el campo para que no pueda ser editado.-->
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" th:text="'Jugador'"></label>
                 <div class="col-sm-6">
@@ -31,9 +34,30 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" th:text="'observacion'"></label>
                 <div class="col-sm-6">
-                    <textarea th:field="*{donacion.descripcion}" class="form-control"></textarea>
+                    <textarea th:field="*{donacion.observacion}" class="form-control"></textarea>
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="buscar_producto" class="col-sm-2 col-form-label" th:text="'Buscar producto'"></label>
+                <div class="col-sm-6">
+                    <input type="text" name="buscar_producto" id="buscar_producto" class="form-control"/>
+                </div>
+            </div>
+            <table th:replace="donacion/plantilla-items :: itemsDonacion"></table>
+            <table id="cargarItemProductos"
+                   class="table table-sm table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+
             <div class="form-group row">
                 <div class="col-sm-6">
                     <input type="submit" th:value="${titulo}" class="btn btn-secondary"/>
@@ -41,10 +65,12 @@
             </div>
 
             </form>
+            <!-- FIN formulario de entrada de factura.-->
         </div>
     </div>
 </div>
 
 <footer th:replace="layout/layout :: footer"></footer>
+<script th:replace="donacion/js/autocomplete-donacion :: javascript"></script>
 </body>
 </html>

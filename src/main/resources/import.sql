@@ -28,33 +28,21 @@ INSERT INTO jugadores (nombre, apellido1,apellido2, mail, inscripcion, dni, dors
 /* Populate tabla productos */
 /*inserts tabla Equipacion*/
 
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('espinilleras', 50, NOW());
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('Zapatillas', 200, NOW());
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('Medias', 30, NOW());
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('Pantalon', 90, NOW());
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('Camiseta', 110, NOW());
-INSERT INTO equipaciones (nombre, precio, create_at) VALUES ('Gorra', 80, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('espinilleras', 50, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('Zapatillas', 200, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('Medias', 30, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('Pantalon', 90, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('Camiseta', 110, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES ('Gorra', 80, NOW());
 
-/* Ejemplos de Viajes ! */
-/*Inserts tabla viajes!
-
-INSERT INTO viajes (destino, precio, fecha) VALUES ('londres', 5000, '2018-12-20');
-INSERT INTO viajes (destino, precio, fecha) VALUES ('New york', 15000, '2018-12-22');
-INSERT INTO viajes (destino, precio, fecha) VALUES ('Pinto', 50, '2018-12-23');
-INSERT INTO viajes (destino, precio, fecha) VALUES ('ValdeMemibre', 5, '2018-12-27');*/
 
 /*Donacion de ejemplo*/
 
 INSERT INTO donaciones (descripcion, observacion, jugador_entity_idjugadores, create_at) VALUES ('Equipacion completa', ' la gorra es de adidas',1, NOW());
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,1,1);
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,2,1);
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,3,1);
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,4,1);
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,5,1);
-INSERT INTO donaciones_items (cantidad, equipacion_id, donacion_id) VALUES (2,6,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,1,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,2,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,3,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,4,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,5,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,6,1);
 
-/*Donacion de ejemplo
-INSERT INTO donaciones (descripcion, observacion, jugador_entity_idJugadores, create_at) VALUES ('VIAJES DE VERANO', ' El jugador viaja solo',2,NOW());
-INSERT INTO donaciones_items (cantidad, donacion_id, viajes_id) VALUES (1, 2, 1);
-INSERT INTO donaciones_items (cantidad, donacion_id, viajes_id) VALUES (1, 2, 2);
-INSERT INTO donaciones_items (cantidad, donacion_id, viajes_id) VALUES (1, 2, 3);*/

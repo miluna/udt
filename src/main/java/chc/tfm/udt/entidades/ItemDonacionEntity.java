@@ -32,8 +32,8 @@ public class ItemDonacionEntity implements Serializable {
      * ItemDonaciónEntity , tiene una relación unidireccional con EquipaciónEntity, por eso unicamente se especifica aqui la relación.
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "equipacion_id")
-    private EquipacionEntity equipacionEntity;
+    @JoinColumn(name = "producto_id")
+    private ProductoEntity productoEntity;
 
   /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "viajes_id")
@@ -46,7 +46,7 @@ public class ItemDonacionEntity implements Serializable {
      * @return
      */
     public Double calcularValor() {
-        return cantidad.doubleValue() * equipacionEntity.getPrecio();
+        return cantidad.doubleValue() * productoEntity.getPrecio();
 
 
     }

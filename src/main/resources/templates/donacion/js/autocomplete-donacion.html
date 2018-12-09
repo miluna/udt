@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- Utilizamos la Jquery con ajax para realizar llamadas asincronas a la base de datos para buscar las donaciones
+
+    Muesta los datos  en el autocomplete a medida que vamos escribiendo
+    1º SOURCE : Se encarga de realizar la petición AJAX
+        procesamos los datos.
+            con AJAX pasamos todos los datos en json y implementamos el metodo success para controlar la respuesta.
+            request.term : Dentro del objeto request almacenamos en term lo que vayamos escribiendo en el imput.
+            dataType : Tipo de dato.
+            data:{ Pasamos el parametro como parametro del request. RequestParam. en este caso es 1 GET y ya tenemos los datos}
+            success(data) : Le pasamos los parametros almacenados anteriormente, para procesar la respuesta.
+                response($.map(data, function(item))
+                    1º Por cada elemento de DATA, retornara los valores definidos de cada item. ID , NOMBRE, PRECIO.
+
+
+    2º Select :  Se encarga de selecionar el valor y realizamos tareas con el.
+        function(event, ui) ^->
+            Recogemos  unicamente el label del item.
+       2.1 : Almacenamos en 1 variable la plantilla de las lineas de la factura, las cuales vamos a remplazar ,
+        dinamicamente con los parametros que recuperamos con la función AJAX.
+
+-->
+                <script type="text/javascript" th:fragment="javascript">
+
+$(document).ready(function(){
+    $("#buscar_producto").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "/donacion/cargar-productos/" + request.term,
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return{
+                            value : item.id,
+                            label : item.nombre,
+                            precio : item.precio,
+                        };
+
+                    }));
+
+                },
+
+
+            });
+        },
+        select: function (event, ui) {
+           // $("#buscar_producto").val(ui.item.label);
+            var linea = $("#plantillaItemsDonacion").html();
+            linea = linea.replace(/{ID}/g, ui.item.value);
+            linea = linea.replace(/{NOMBRE}/g, ui.item.label);
+            linea = linea.replace(/{PRECIO}/g, ui.item.precio);
+
+            $("#cargarItemProductos tbody").append(linea);
+
+            return false;
+        }
+    });
+
+
+}
+);
+</script>
+
+
+</body>
+</html>
