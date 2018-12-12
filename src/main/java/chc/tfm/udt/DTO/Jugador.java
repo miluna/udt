@@ -14,13 +14,4 @@ public class Jugador {
     private String edad;
     private String dorsal;
     private EquipoEntity equipo;
-
-
-    public Jugador(JugadorEntity entity) {
-        this.id = entity.getId();
-        this.nombre = entity.getNombre();
-        this.apellido1 = entity.getApellido1();
-        this.edad = entity.getEdad();
-        this.dorsal = entity.getDorsal();
-    }
 }

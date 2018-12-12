@@ -1,6 +1,6 @@
 package chc.tfm.udt.entidades;
 
-import chc.tfm.udt.DTO.Jugador;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,8 +24,7 @@ public class JugadorEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idjugadores")
-    private Integer id;
+    private Long id;
     @NotEmpty
     @Column(name = "dni")
     private String dni;
@@ -72,7 +71,7 @@ public class JugadorEntity implements Serializable {
      * FetchTypy.LAZY atributo perezoso Cada vez que se haga 1 petición de 1 jugador no se hara la petición a las donaciones si no se expresa.
      * CascadeType.All: Con esto conseguimos que si borramos 1 jugador se borren también sus donaciones.
      * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas*/
-    @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DonacionEntity> donaciones;
 
     /**
@@ -87,14 +86,12 @@ public class JugadorEntity implements Serializable {
         this.donaciones = new ArrayList<>();
     }
 
-    public JugadorEntity(Jugador jugador) {
-        this.nombre = jugador.getNombre();
-        this.apellido1 = jugador.getApellido1();
-        this.edad = jugador.getEdad();
-        this.dorsal = jugador.getDorsal();
-    }
+
     // MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.
     public void addDonacion(DonacionEntity donacionEntity){
         donaciones.add(donacionEntity);
     }
+
+
+
 }

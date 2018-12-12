@@ -1,6 +1,8 @@
 package chc.tfm.udt.servicio;
+import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.JugadorEntity;
 import chc.tfm.udt.entidades.ProductoEntity;
+import chc.tfm.udt.repositorios.IDonacionDAO;
 import chc.tfm.udt.repositorios.IProductoDAO;
 import chc.tfm.udt.repositorios.JugadorDAO;
 import org.apache.commons.logging.Log;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+
 /**
  * Clase que usaremos para seguir el patron de diseño "Business Service Facade"
  */
@@ -25,11 +29,13 @@ public class JugadorServiceImpl implements IJugadorService {
     private JugadorDAO jugadorDAO;
     @Autowired
     private IProductoDAO productoDAO;
+    @Autowired
+    private IDonacionDAO donacionDAO;
 
     @Override
     @Transactional(readOnly = true)
     public List<JugadorEntity> findAll() {
-        return (List<JugadorEntity>)jugadorDAO.findAll();
+        return jugadorDAO.findAll();
     }
 
     @Override
@@ -39,10 +45,9 @@ public class JugadorServiceImpl implements IJugadorService {
 
     @Override
     @Transactional(readOnly = true)
-    public JugadorEntity findOne(Integer id) {
+    public JugadorEntity findOne(Long id) {
         return jugadorDAO.findById(id).orElse(null);
     }
-
 
 
     @Override
@@ -50,15 +55,27 @@ public class JugadorServiceImpl implements IJugadorService {
     public void save(JugadorEntity jugadorEntity) {
         jugadorDAO.save(jugadorEntity);
     }
+
     @Transactional
     @Override
-    public void delete(Integer id) {
+    public void delete(Long id) {
         jugadorDAO.deleteById(id);
 
     }
-
+    @Transactional(readOnly = true)
     @Override
     public List<ProductoEntity> findByNombre(String term) {
         return productoDAO.findByNombreLikeIgnoreCase("%"+term+"%");
+    }
+    @Transactional
+    @Override
+    public void saveDonacion(DonacionEntity donacionEntity) {
+        donacionDAO.save(donacionEntity);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ProductoEntity findProductoEntityById(Long id) {
+        return productoDAO.findById(id).orElse(null);
     }
 }

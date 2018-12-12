@@ -75,7 +75,7 @@ public class JugadorController {
      * @return
      */
     @GetMapping(value = "/ver/{id}")
-    public String ver(@PathVariable(value = "id") Integer id , Map<String,Object> model, RedirectAttributes push){
+    public String ver(@PathVariable(value = "id") Long id , Map<String,Object> model, RedirectAttributes push){
         JugadorEntity jugadorEntity = jugadorService.findOne(id);
         if(jugadorEntity == null){
             push.addFlashAttribute("error", "El jugador no existe en la base de datos");
@@ -128,7 +128,7 @@ public class JugadorController {
      * @return
      */
     @RequestMapping(value = "/form/{id}")
-    public String editar (@PathVariable(value = "id") Integer id, Map<String , Object> model,RedirectAttributes push){
+    public String editar (@PathVariable(value = "id") Long id, Map<String , Object> model,RedirectAttributes push){
         JugadorEntity jugadorEntity = null;
         //Comprobamos que el id es superior a 0, si no, no existe el jugador.
         if(id >0){
@@ -211,7 +211,7 @@ public class JugadorController {
      * @return
      */
     @RequestMapping(value = "/eliminar/{id}")
-    public String eliminar(@PathVariable(value = "id") Integer id, RedirectAttributes push){
+    public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes push){
         if(id > 0){
             JugadorEntity jugadorEntity = jugadorService.findOne(id);
             jugadorService.delete(id);

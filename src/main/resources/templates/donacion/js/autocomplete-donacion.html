@@ -34,6 +34,7 @@
             , si existe incrementamos la cantidad y el precio.
             y si no retornamos false.
         3.6 : EliminarLineaFactura: function() <-> selecionamos la linea por el row Id y lo eliminamos con remove
+        3.7 : calcularGranTotal : function <-> recorremos el con un for el array de lineas con id [total_importe_] y lo vamos concatenando a 1 variable.
 
 
 
@@ -78,10 +79,15 @@
                 return false;
             }
         });
+        $("form").submit(function () {
+           $("#plantillaItemsDonacion").remove();
+           return;
+        });
     });
     var itemsHelper = {
         calcularImporte: function (id, precio, cantidad) {
             $("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
+            this.calcularGranTotal();
         },
 
         hasProducto: function (id) {
@@ -101,6 +107,15 @@
         },
         eliminarLineaFactura: function (id) {
             $("#row_" + id).remove();
+            this.calcularGranTotal();
+        },
+        calcularGranTotal: function () {
+            var total = 0;
+            $('span[id^="total_importe_"]').each(function () {
+                total += parseInt($(this).html());
+
+            });
+            $('#gran_total').html(total);
         }
     }
 

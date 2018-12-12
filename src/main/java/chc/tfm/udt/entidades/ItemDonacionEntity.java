@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * Esta clase nos va a servir para definir las lineas que va a contener la donación , por el momento solo el id

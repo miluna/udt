@@ -15,7 +15,6 @@ import java.util.List;
  * por tanto estará implementado en el registro del jugador.
  */
 @Data
-@AllArgsConstructor
 @Entity
 @Table(name = "donaciones")
 public class DonacionEntity implements Serializable {
@@ -47,6 +46,7 @@ public class DonacionEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "donacion_id")
     private List<ItemDonacionEntity> items;
+
 
     //Inicializamos el list Items por el constructor
     public DonacionEntity() {
