@@ -2,27 +2,29 @@ package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.entidades.DonacionEntity;
-import chc.tfm.udt.logica.Converter;
-import chc.tfm.udt.repositorios.IDonacionDAO;
+import chc.tfm.udt.logica.DonacionConverter;
 import chc.tfm.udt.repositorios.IDonacionRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.List;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.stream.Collectors;
 
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service(value = "DonacionesService")
 public class DonacionesService implements CrudService<Donacion> {
-
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private IDonacionRepository donacionRepository;
-    private Converter<DonacionEntity, Donacion> converter;
+    private DonacionConverter converter;
     
     @Autowired
-    private DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
-       @Qualifier("DonacionConverter") Converter<DonacionEntity, Donacion> converter){
+    public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
+       @Qualifier("DonacionConverter") DonacionConverter converter){
         this.donacionRepository = donacionRepository;
         this.converter = converter;
     }
@@ -32,13 +34,17 @@ public class DonacionesService implements CrudService<Donacion> {
 //Basicamente es lo unico que me pidio gustavo , que hiciera los convertidores pero no a la chusca
         // usar converter para crear el entity -> el resultado no tendrá id
         //esa clase de donde la has sacado ^.-
-        DonacionEntity d = converter.convertEntity(donacion);
+        log.info("LLegamos al servicio");
+        DonacionEntity d = converter.convertToDatabaseColumn(donacion);
         // el save devuelve el entity igual, pero con el ID, tu cuando creas lo creas con id=null
-        DonacionEntity saved = donacionRepository.saveAndFlush(d);
+        log.info("HEmos comvertido bien ! ");
+        DonacionEntity saved = donacionRepository.save(d);
+        log.info("De aqui no pasa.");
         // ahora conviertes a DTO el que te devuelve el repositorio, que tiene el id, 
         // y ya lo devuelves con todos los datos
-        //
-        Donacion returned = converter.convertDTO(saved);
+        log.info(" Apunto de convertir a dto de nuevo");
+        Donacion returned = converter.convertToEntityAttribute(saved);
+        log.info("Aqui creeo que peta");
         return returned;
     }
     //Sip, lo veo claro
@@ -47,7 +53,12 @@ public class DonacionesService implements CrudService<Donacion> {
     @Override
 @Transactional(readOnly = true)    
     public Donacion findOne(Long id) {
-        return donacionRepository.findById(id).orElse(null);
+        Donacion resultado = null;
+        Optional<DonacionEntity> buscar = donacionRepository.findById(id);
+        if(buscar.isPresent()){
+            resultado = new Donacion(buscar.get());
+        }
+        return resultado;
     }
 
     @Override
@@ -57,13 +68,16 @@ public class DonacionesService implements CrudService<Donacion> {
         Optional<DonacionEntity> found = donacionRepository.findById(id);
         if (found.isPresent()) {
             DonacionEntity d = found.get();
+            d.setObservacion(donacion.getObservacion());
+            d.setDescripcion(donacion.getDescripcion());
+            d.setId(donacion.getId());
             // tu cargas el objeto de la base de datos y le actualizas las cosas con el JSON que te llega
             // OKis!
             // set d atributos con los atributos del nuevo objeto que viene por parametro ---- que cosas
-            d.setDescripcion(donacion.getDescripcion());
+
 // osea que tengo que coger los atributos y setearselos   -- no me autocompleta pero es eso                     
             // guardar
-            return donacionRepository.save(d);                        
+            return null;
         } else return null;
     }
 
@@ -77,6 +91,10 @@ public class DonacionesService implements CrudService<Donacion> {
 
     @Override
     public List<Donacion> findAll() {
-        return donacionRepository.findAll();
+        List<Donacion> resultado = donacionRepository.findAll().
+                stream().
+                map(d -> new Donacion(d)).
+                collect(Collectors.toList());
+        return resultado;
     }
 }

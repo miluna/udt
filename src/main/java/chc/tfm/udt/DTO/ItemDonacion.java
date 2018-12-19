@@ -1,11 +1,11 @@
 package chc.tfm.udt.DTO;
 
+import chc.tfm.udt.entidades.ItemDonacionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class ItemDonacion {
 
@@ -14,4 +14,9 @@ public class ItemDonacion {
     private Integer cantidad;
 
     private Producto producto;
+
+    public ItemDonacion(ItemDonacionEntity itemDonacionEntity){
+
+
+    }
 }

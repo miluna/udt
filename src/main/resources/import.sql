@@ -37,6 +37,15 @@ INSERT INTO productos (nombre, precio, create_at) VALUES ('Gorra', 80, NOW());
 
 
 /*Donacion de ejemplo*/
+/*Donacion de ejemplo*/
+
+INSERT INTO donaciones (descripcion, observacion, jugador_entity_id, create_at) VALUES ('Equipacion completa', ' la gorra es de adidas',1, NOW());
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,1,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,2,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,3,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,4,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,5,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,6,1);
 
 
 

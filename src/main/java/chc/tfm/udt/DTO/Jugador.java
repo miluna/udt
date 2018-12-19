@@ -8,10 +8,20 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Jugador {
-    private int id;
+    private Long id;
     private String nombre;
     private String apellido1;
+    private String apellido2;
     private String edad;
     private String dorsal;
     private EquipoEntity equipo;
+
+    public Jugador(JugadorEntity jugadorEntity){
+
+
+    }
+
+    public Jugador() {
+
+    }
 }

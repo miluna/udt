@@ -1,5 +1,6 @@
 package chc.tfm.udt.entidades;
 
+import chc.tfm.udt.DTO.ItemDonacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ import java.util.Optional;
  */
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "donaciones_items")
 public class ItemDonacionEntity implements Serializable {
@@ -35,6 +35,12 @@ public class ItemDonacionEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private ProductoEntity productoEntity;
+
+    public ItemDonacionEntity(ItemDonacion i) {
+    }
+    public ItemDonacionEntity(){
+
+    }
 
   /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "viajes_id")

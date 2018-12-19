@@ -1,6 +1,7 @@
 package chc.tfm.udt.entidades;
 
 
+import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -74,14 +75,17 @@ public class JugadorEntity implements Serializable {
     @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DonacionEntity> donaciones;
 
+
     /**
      * Metodo que se invoca justo antes de hacer la inserción en base de datos para generar la fecha.
+     * @param jugador
      */
 //    @PrePersist
 //    public void prePersist(){
 //        inscripcion = new Date();
 //    }
-
+    public JugadorEntity(Jugador jugador){
+    }
     public JugadorEntity(){
         this.donaciones = new ArrayList<>();
     }
@@ -91,7 +95,5 @@ public class JugadorEntity implements Serializable {
     public void addDonacion(DonacionEntity donacionEntity){
         donaciones.add(donacionEntity);
     }
-
-
 
 }

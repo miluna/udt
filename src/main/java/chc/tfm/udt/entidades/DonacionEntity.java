@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,8 +36,8 @@ public class DonacionEntity implements Serializable {
      * Muchas Donaciones un solo jugador.
      * Existe una relación bidireccional.
      */
-    @ManyToOne(fetch = FetchType.LAZY) // Solo se realiza la consulta cuando se invoca al metodo
-    private JugadorEntity jugadorEntity;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}) // Solo se realiza la consulta cuando se invoca al metodo
+   private JugadorEntity jugadorEntity;
     /**
      * Una donación contiene muchos itemsDonaciónEntity.
      * JoinColum: Indicamos a la base de datos cual es la llave foranea de la relación ,
@@ -47,11 +48,16 @@ public class DonacionEntity implements Serializable {
     @JoinColumn(name = "donacion_id")
     private List<ItemDonacionEntity> items;
 
+    public DonacionEntity(JugadorEntity jugadorEntity){
+
+    }
+
 
     //Inicializamos el list Items por el constructor
     public DonacionEntity() {
         this.items = new ArrayList<>();
     }
+
 
     //Metodo que usaremos para persistir la fecha justn en el momento de crear la claes
     @PrePersist

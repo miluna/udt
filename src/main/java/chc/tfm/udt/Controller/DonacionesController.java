@@ -2,6 +2,8 @@ package chc.tfm.udt.Controller;
 
 import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.servicio.CrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,7 @@ import java.util.List;
 
 @RestController(value = "DonacionesController")
 public class DonacionesController implements CrudController<Donacion> {
-
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
     private CrudService<Donacion> service;
 
     @Autowired
@@ -28,7 +30,9 @@ public class DonacionesController implements CrudController<Donacion> {
 
     @PostMapping(value = "/donaciones")
     public ResponseEntity<Donacion> createOne(Donacion donacion) {
+        LOG.info("Entramos  en el controller");
         Donacion result = service.createOne(donacion);
+       LOG.info("Respeusta del servicio");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
