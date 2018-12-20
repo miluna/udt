@@ -1,22 +1,21 @@
 package chc.tfm.udt.entidades;
 
 
-import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "jugadores")
@@ -84,11 +83,6 @@ public class JugadorEntity implements Serializable {
 //    public void prePersist(){
 //        inscripcion = new Date();
 //    }
-    public JugadorEntity(Jugador jugador){
-    }
-    public JugadorEntity(){
-        this.donaciones = new ArrayList<>();
-    }
 
 
     // MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.

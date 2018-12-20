@@ -14,6 +14,7 @@ import java.util.Optional;
  * y la cantidad donada al jugador.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "donaciones_items")
@@ -35,12 +36,6 @@ public class ItemDonacionEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private ProductoEntity productoEntity;
-
-    public ItemDonacionEntity(ItemDonacion i) {
-    }
-    public ItemDonacionEntity(){
-
-    }
 
   /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "viajes_id")

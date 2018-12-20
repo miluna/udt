@@ -1,8 +1,10 @@
 package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.DTO.Donacion;
+import chc.tfm.udt.DTO.Jugador;
 import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.logica.DonacionConverter;
+import chc.tfm.udt.logica.JugadorConverter;
 import chc.tfm.udt.repositorios.IDonacionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +23,18 @@ public class DonacionesService implements CrudService<Donacion> {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private IDonacionRepository donacionRepository;
     private DonacionConverter converter;
+    private CrudService<Jugador> jugadoresService;
+    private JugadorConverter jugadoresConverter;
     
     @Autowired
     public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
-       @Qualifier("DonacionConverter") DonacionConverter converter){
+                             @Qualifier("DonacionConverter") DonacionConverter converter,
+                             @Qualifier("JugadoresService") CrudService<Jugador> jugadoresService,
+                             @Qualifier("JugadorConverter") JugadorConverter jugadoresConverter){
         this.donacionRepository = donacionRepository;
         this.converter = converter;
+        this.jugadoresService = jugadoresService;
+        this.jugadoresConverter = jugadoresConverter;
     }
 
     @Override
@@ -56,7 +64,8 @@ public class DonacionesService implements CrudService<Donacion> {
         Donacion resultado = null;
         Optional<DonacionEntity> buscar = donacionRepository.findById(id);
         if(buscar.isPresent()){
-            resultado = new Donacion(buscar.get());
+            DonacionEntity encontrado = buscar.get();
+            resultado = converter.convertToEntityAttribute(encontrado);
         }
         return resultado;
     }

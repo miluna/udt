@@ -2,6 +2,7 @@ package chc.tfm.udt.entidades;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,8 @@ import java.util.List;
  * por tanto estará implementado en el registro del jugador.
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "donaciones")
 public class DonacionEntity implements Serializable {
@@ -47,16 +50,6 @@ public class DonacionEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "donacion_id")
     private List<ItemDonacionEntity> items;
-
-    public DonacionEntity(JugadorEntity jugadorEntity){
-
-    }
-
-
-    //Inicializamos el list Items por el constructor
-    public DonacionEntity() {
-        this.items = new ArrayList<>();
-    }
 
 
     //Metodo que usaremos para persistir la fecha justn en el momento de crear la claes
