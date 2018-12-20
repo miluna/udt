@@ -27,4 +27,6 @@ public class Jugador {
     private Equipo equipo;
     private List<Donacion> donaciones;
 
+    public Jugador(Donacion donacion) {
+    }
 }

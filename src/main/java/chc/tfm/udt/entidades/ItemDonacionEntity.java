@@ -37,6 +37,9 @@ public class ItemDonacionEntity implements Serializable {
     @JoinColumn(name = "producto_id")
     private ProductoEntity productoEntity;
 
+    public ItemDonacionEntity(ItemDonacion itemDonacion) {
+    }
+
   /*  @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "viajes_id")
     private ViajesEntity viajesEntity;*/

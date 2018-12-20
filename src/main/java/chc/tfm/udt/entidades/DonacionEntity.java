@@ -1,5 +1,6 @@
 package chc.tfm.udt.entidades;
 
+import chc.tfm.udt.DTO.Donacion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -71,5 +72,8 @@ public class DonacionEntity implements Serializable {
             total += items.get(i).calcularValor();
         }
         return total;
+    }
+    public DonacionEntity(Donacion donacion){
+
     }
 }
