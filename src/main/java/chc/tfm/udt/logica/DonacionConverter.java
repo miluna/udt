@@ -36,7 +36,7 @@ public class DonacionConverter implements AttributeConverter<Donacion, DonacionE
                 map(ItemDonacionEntity::new).
                 collect(Collectors.toList()));
         // Set del jugador
-       // e.setJugadorEntity(new JugadorEntity(attribute.getJugador()));
+        e.setJugadorEntity(new JugadorEntity(attribute.getJugador()));
         log.info("Se ha seteado bien el entity");
         return e;
     }
@@ -55,8 +55,8 @@ public class DonacionConverter implements AttributeConverter<Donacion, DonacionE
                 stream().
                 map(ItemDonacion::new).
                 collect(Collectors.toList()));
-        // Set del jugador.
-      //  d.setJugador(new Jugador(dbData.getJugadorEntity()));
+        // Seteamos al jugador lo que viene de la entity
+        d.setJugador(new Jugador(dbData.getJugadorEntity()));
     log.info("Se ha seteado bien el dto");
 
         return d;

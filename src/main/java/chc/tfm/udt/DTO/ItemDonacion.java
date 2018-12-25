@@ -16,7 +16,9 @@ public class ItemDonacion {
     private Producto producto;
 
     public ItemDonacion(ItemDonacionEntity itemDonacionEntity){
+    }
 
+    public ItemDonacion() {
 
     }
 }

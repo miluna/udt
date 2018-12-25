@@ -1,6 +1,8 @@
 package chc.tfm.udt.entidades;
 
 import chc.tfm.udt.DTO.Donacion;
+import chc.tfm.udt.DTO.ItemDonacion;
+import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,6 @@ import java.util.List;
  * por tanto estará implementado en el registro del jugador.
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "donaciones")
@@ -52,12 +53,32 @@ public class DonacionEntity implements Serializable {
     @JoinColumn(name = "donacion_id")
     private List<ItemDonacionEntity> items;
 
+    //Constructores
+
+    public DonacionEntity(Donacion donacion){
+    }
+
+    public DonacionEntity(ItemDonacion itemDonacion){
+
+    }
+    public DonacionEntity(JugadorEntity jugadorEntity){
+
+    }
+    public DonacionEntity(Jugador jugador){
+
+    }
+
+    public DonacionEntity() {
+
+    }
+
 
     //Metodo que usaremos para persistir la fecha justn en el momento de crear la claes
     @PrePersist
     public void prePersist() {
         createAt = new Date();
     }
+
 
     // MEtodo que vamos a utilizar para  añadir un solo item a la lista, al contrario que con el set que añadimos 1 lista.
     public void addItemDonacion(ItemDonacionEntity item) {
@@ -73,7 +94,5 @@ public class DonacionEntity implements Serializable {
         }
         return total;
     }
-    public DonacionEntity(Donacion donacion){
 
-    }
 }

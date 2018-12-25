@@ -1,6 +1,7 @@
 package chc.tfm.udt.entidades;
 
 
+import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "jugadores")
@@ -73,6 +73,10 @@ public class JugadorEntity implements Serializable {
      * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas*/
     @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DonacionEntity> donaciones;
+
+    public JugadorEntity(){}
+    public JugadorEntity(Jugador jugador) {
+    }
 
 
     /**

@@ -1,5 +1,7 @@
 package chc.tfm.udt.DTO;
 
+import chc.tfm.udt.entidades.DonacionEntity;
+import chc.tfm.udt.entidades.JugadorEntity;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -7,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class Donacion {
 
@@ -24,5 +25,12 @@ public class Donacion {
     private List<ItemDonacion> items;
 
     public Donacion(Donacion donacion) {
+    }
+
+    public Donacion(DonacionEntity j) {
+    }
+
+    public Donacion() {
+
     }
 }

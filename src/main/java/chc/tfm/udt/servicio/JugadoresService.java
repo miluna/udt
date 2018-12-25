@@ -37,7 +37,9 @@ public class JugadoresService implements CrudService<Jugador> {
 
     @Override
     public Jugador createOne(Jugador jugador) {
+        LOG.info("Entramos en el create");
         JugadorEntity j = converter.convertToDatabaseColumn(jugador);
+        LOG.info("No se permiten nulos");
         JugadorEntity saved = jugadorRepository.save(j);
         Jugador returned = converter.convertToEntityAttribute(saved);
         return returned;

@@ -1,6 +1,5 @@
 package chc.tfm.udt.Controller;
 
-import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.Jugador;
 import chc.tfm.udt.servicio.CrudService;
 import org.slf4j.Logger;
@@ -32,7 +31,9 @@ public class JugadoresController implements CrudController<Jugador> {
     @Override
     @PostMapping(value = "/jugadores")
     public ResponseEntity<Jugador> createOne(Jugador jugador) {
+
         Jugador resultado = service.createOne(jugador);
+        LOG.info("Introducir datos correctos");
         return new ResponseEntity<>(resultado, HttpStatus.OK);
     }
 
