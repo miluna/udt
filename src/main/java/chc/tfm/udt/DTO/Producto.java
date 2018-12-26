@@ -3,7 +3,6 @@ package chc.tfm.udt.DTO;
 import chc.tfm.udt.entidades.ProductoEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -20,6 +19,7 @@ public class Producto {
     private Date createAt;
 
 
+    public Producto (){}
     public Producto(Producto producto) {
     }
 

@@ -26,11 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "DonacionesService")
 public class DonacionesService implements CrudService<Donacion> {
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
     private IDonacionRepository donacionRepository;
+    private ItemDonacionesService itemDonacionesService;
     private DonacionConverter converter;
     private ItemConverter itemConverter;
-    private ItemDonacionesService itemDonacionesService;
+
 
     @Autowired
     public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
@@ -46,20 +48,13 @@ public class DonacionesService implements CrudService<Donacion> {
 
     @Override
     public Donacion createOne(Donacion donacion) {
-//Basicamente es lo unico que me pidio gustavo , que hiciera los convertidores pero no a la chusca
-        // usar converter para crear el entity -> el resultado no tendrá id
-        //esa clase de donde la has sacado ^.-
-        log.info("LLegamos al servicio");
+        LOG.info("LLegamos al servicio");
         DonacionEntity d = converter.convertToDatabaseColumn(donacion);
-        // el save devuelve el entity igual, pero con el ID, tu cuando creas lo creas con id=null
-        log.info("HEmos comvertido bien ! ");
+        LOG.info("Convertimos a ENTITY");
         DonacionEntity saved = donacionRepository.save(d);
-        log.info("De aqui no pasa.");
-        // ahora conviertes a DTO el que te devuelve el repositorio, que tiene el id, 
-        // y ya lo devuelves con todos los datos
-        log.info(" Apunto de convertir a dto de nuevo");
+        LOG.info("Guardamos en la base de datos.");
         Donacion returned = converter.convertToEntityAttribute(saved);
-        log.info("Aqui creeo que peta");
+        LOG.info("Convertimos de nuevo a DTO ");
         return returned;
     }
     @Override
@@ -93,7 +88,7 @@ public class DonacionesService implements CrudService<Donacion> {
             //Encontrar los items de cada donacion
             List<ItemDonacionEntity> itemsDonacion = findItemsDonacionFromDonacion(donacion);
             encontrado.setItems(itemsDonacion);
-            // Guardamos todo
+            // Guardamos
            DonacionEntity guardado = donacionRepository.save(encontrado);
            resultado = converter.convertToEntityAttribute(guardado);
 
@@ -118,6 +113,7 @@ public class DonacionesService implements CrudService<Donacion> {
                 collect(Collectors.toList());
         return resultado;
     }
+
     private List<ItemDonacionEntity> findItemsDonacionFromDonacion(Donacion d){
         List<ItemDonacionEntity> itemsEntities = new ArrayList<>();
 

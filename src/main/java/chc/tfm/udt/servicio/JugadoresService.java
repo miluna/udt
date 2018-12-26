@@ -20,10 +20,13 @@ import java.util.stream.Collectors;
 @Service(value = "JugadoresService")
 public class JugadoresService implements CrudService<Jugador> {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
+
     private IJugadorRepository jugadorRepository;
-    private JugadorConverter converter;
     private CrudService<Donacion> donacionesService;
+    private JugadorConverter converter;
     private DonacionConverter donacionConverter;
+
+
 
     public JugadoresService (@Qualifier("IJugadorRepository") IJugadorRepository jugadorRepository,
                              @Qualifier("DonacionesService") CrudService<Donacion> donacionesService,
@@ -37,9 +40,11 @@ public class JugadoresService implements CrudService<Jugador> {
 
     @Override
     public Jugador createOne(Jugador jugador) {
-        LOG.info("Entramos en el create");
+        LOG.info("Recuperamos las donaciones del jugador");
+        List<Donacion> donacions = this.getDonacionesFromJugadores(jugador);
+        jugador.setDonaciones(donacions);
+        LOG.info("Convertimos el jugador Entity a jugador.");
         JugadorEntity j = converter.convertToDatabaseColumn(jugador);
-        LOG.info("No se permiten nulos");
         JugadorEntity saved = jugadorRepository.save(j);
         Jugador returned = converter.convertToEntityAttribute(saved);
         return returned;
@@ -121,5 +126,17 @@ public class JugadoresService implements CrudService<Jugador> {
             }
         });
         return donacionEntities;
+    }
+
+    public List<Donacion> getDonacionesFromJugadores(Jugador j ){
+        List<Donacion> todasDonaciones = new ArrayList<>();
+        List<Donacion> donaciones = j.getDonaciones();
+        if(donaciones !=null){
+            donaciones.forEach(e ->{
+                Donacion donacion = donacionesService.findOne(e.getId());
+                if(donacion !=null) todasDonaciones.add(donacion);
+            });
+        }
+        return todasDonaciones;
     }
 }

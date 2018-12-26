@@ -1,6 +1,7 @@
 package chc.tfm.udt.entidades;
 
 
+import chc.tfm.udt.DTO.Equipo;
 import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -67,12 +68,16 @@ public class JugadorEntity implements Serializable {
     private String dorsal;
     @Column(name = "foto")
     private String foto;
+
     /** Un jugador muchas donaciones
      * FetchTypy.LAZY atributo perezoso Cada vez que se haga 1 petición de 1 jugador no se hara la petición a las donaciones si no se expresa.
      * CascadeType.All: Con esto conseguimos que si borramos 1 jugador se borren también sus donaciones.
      * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas*/
+
     @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DonacionEntity> donaciones;
+
+    //private Equipo equipo;
 
     public JugadorEntity(){}
     public JugadorEntity(Jugador jugador) {
@@ -81,7 +86,7 @@ public class JugadorEntity implements Serializable {
 
     /**
      * Metodo que se invoca justo antes de hacer la inserción en base de datos para generar la fecha.
-     * @param jugador
+     *
      */
 //    @PrePersist
 //    public void prePersist(){

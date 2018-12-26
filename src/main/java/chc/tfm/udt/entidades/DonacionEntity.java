@@ -59,13 +59,10 @@ public class DonacionEntity implements Serializable {
     }
 
     public DonacionEntity(ItemDonacion itemDonacion){
-
     }
     public DonacionEntity(JugadorEntity jugadorEntity){
-
     }
     public DonacionEntity(Jugador jugador){
-
     }
 
     public DonacionEntity() {

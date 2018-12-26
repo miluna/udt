@@ -51,12 +51,12 @@ public class DonacionConverter implements AttributeConverter<Donacion, DonacionE
         d.setCreateAt(dbData.getCreateAt());
         d.setId(dbData.getId());
         // Seteo de la lista de items de la factura
-        d.setItems(dbData.getItems().
-                stream().
-                map(ItemDonacion::new).
-                collect(Collectors.toList()));
+//        d.setItems(dbData.getItems().
+//                stream().
+//                map(ItemDonacion::new).
+//                collect(Collectors.toList()));
         // Seteamos al jugador lo que viene de la entity
-        d.setJugador(new Jugador(dbData.getJugadorEntity()));
+        //d.setJugador(new Jugador(dbData.getJugadorEntity()));
     log.info("Se ha seteado bien el dto");
 
         return d;

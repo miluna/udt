@@ -24,6 +24,8 @@ public class Donacion {
 
     private List<ItemDonacion> items;
 
+    //Constructores.
+
     public Donacion(Donacion donacion) {
     }
 
