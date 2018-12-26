@@ -38,7 +38,7 @@ public class DonacionesService implements CrudService<Donacion> {
     public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
                              @Qualifier("DonacionConverter") DonacionConverter converter,
                              @Qualifier("ItemConverter")ItemConverter itemConverter,
-                             @Qualifier("ItemDonacionService") ItemDonacionesService itemDonacionesService)
+                             @Qualifier("ItemDonacionesService") ItemDonacionesService itemDonacionesService)
     {
         this.donacionRepository = donacionRepository;
         this.converter = converter;
@@ -109,7 +109,7 @@ public class DonacionesService implements CrudService<Donacion> {
     public List<Donacion> findAll() {
         List<Donacion> resultado = donacionRepository.findAll().
                 stream().
-                map(d -> new Donacion(d)).
+                map(d -> converter.convertToEntityAttribute(d)).
                 collect(Collectors.toList());
         return resultado;
     }
