@@ -93,8 +93,7 @@ public class JugadorEntity implements Serializable {
 //        inscripcion = new Date();
 //    }
 
-
-    // MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.
+// MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.
     public void addDonacion(DonacionEntity donacionEntity){
         donaciones.add(donacionEntity);
     }

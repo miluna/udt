@@ -1,10 +1,9 @@
-package chc.tfm.udt.logica;
+package chc.tfm.udt.convertidores;
 
 import chc.tfm.udt.DTO.ItemDonacion;
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ItemDonacionEntity;
 import chc.tfm.udt.entidades.ProductoEntity;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

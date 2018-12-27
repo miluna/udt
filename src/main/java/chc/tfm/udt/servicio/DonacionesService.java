@@ -2,14 +2,11 @@ package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.ItemDonacion;
-import chc.tfm.udt.DTO.Jugador;
 import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.ItemDonacionEntity;
-import chc.tfm.udt.logica.DonacionConverter;
-import chc.tfm.udt.logica.ItemConverter;
-import chc.tfm.udt.logica.JugadorConverter;
+import chc.tfm.udt.convertidores.DonacionConverter;
+import chc.tfm.udt.convertidores.ItemConverter;
 import chc.tfm.udt.repositorios.IDonacionRepository;
-import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

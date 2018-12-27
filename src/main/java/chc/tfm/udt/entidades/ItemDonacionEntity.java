@@ -27,7 +27,7 @@ public class ItemDonacionEntity implements Serializable {
 
     private Integer cantidad;
     /**
-     * ManyToOne: Muchos items en una sola equipación.
+     * ManyToOne: Muchos items en un solo producto.
      * JoinColumn: Indicamos el nombre de la llave foranea de la tabla donaciones_items, aunque se crearía de forma automatica
      * si no lo especificamos
      * ItemDonaciónEntity , tiene una relación unidireccional con EquipaciónEntity, por eso unicamente se especifica aqui la relación.

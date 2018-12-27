@@ -1,4 +1,4 @@
-package chc.tfm.udt.logica;
+package chc.tfm.udt.convertidores;
 
 import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.Jugador;
@@ -55,6 +55,7 @@ public class JugadorConverter implements AttributeConverter<Jugador, JugadorEnti
         j.setInscripcion(dbData.getInscripcion());
         j.setDorsal(dbData.getDorsal());
         j.setFoto(dbData.getFoto());
+        LOG.info("Porque no seteas");
         j.setDonaciones(dbData.getDonaciones().stream().
                 map(o -> new Donacion(o)).
                 collect(Collectors.toList()));

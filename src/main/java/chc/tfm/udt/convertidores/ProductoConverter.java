@@ -1,4 +1,4 @@
-package chc.tfm.udt.logica;
+package chc.tfm.udt.convertidores;
 
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ProductoEntity;

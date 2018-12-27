@@ -2,7 +2,7 @@ package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ProductoEntity;
-import chc.tfm.udt.logica.ProductoConverter;
+import chc.tfm.udt.convertidores.ProductoConverter;
 import chc.tfm.udt.repositorios.IProductoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

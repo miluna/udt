@@ -3,7 +3,7 @@ package chc.tfm.udt.servicio;
 import chc.tfm.udt.DTO.ItemDonacion;
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ItemDonacionEntity;
-import chc.tfm.udt.logica.ItemConverter;
+import chc.tfm.udt.convertidores.ItemConverter;
 import chc.tfm.udt.repositorios.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,7 +22,7 @@ public class ItemDonacionesService implements CrudService<ItemDonacion> {
     @Autowired
     public ItemDonacionesService(@Qualifier("ItemConverter") ItemConverter converter,
                                  @Qualifier("ItemRepository") ItemRepository repository,
-                                 @Qualifier("ProductoService") ProductoService productoService){
+                                 @Qualifier("ProductoService") ProductoService productoService) {
         this.converter = converter;
         this.repository = repository;
         this.productoService = productoService;
@@ -40,7 +40,7 @@ public class ItemDonacionesService implements CrudService<ItemDonacion> {
     @Override
     public ItemDonacion findOne(Long id) {
         ItemDonacion result = null;
-        if (id != null){
+        if (id != null) {
             Optional<ItemDonacionEntity> found = repository.findById(id);
             result = found.isPresent() ? converter.convertToEntityAttribute(found.get()) : null;
         }
@@ -51,7 +51,7 @@ public class ItemDonacionesService implements CrudService<ItemDonacion> {
     public ItemDonacion updateOne(Long id, ItemDonacion itemDonacion) {
         ItemDonacion result = null;
         Optional<ItemDonacionEntity> found = repository.findById(id);
-        if (found.isPresent()){
+        if (found.isPresent()) {
             ItemDonacionEntity i = found.get();
             i.setCantidad(itemDonacion.getCantidad());
             ItemDonacionEntity saved = repository.save(i);
@@ -80,3 +80,4 @@ public class ItemDonacionesService implements CrudService<ItemDonacion> {
                 .collect(Collectors.toList());
     }
 }
+
