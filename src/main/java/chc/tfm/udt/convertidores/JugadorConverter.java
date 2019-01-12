@@ -4,17 +4,25 @@ import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.Jugador;
 import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.JugadorEntity;
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 //Clse que convierte los DTO a Entity para ser insertado, y luego lo devuelve como DTO
 @Converter
 @Component("JugadorConverter")
 public class JugadorConverter implements AttributeConverter<Jugador, JugadorEntity> {
+
+    @Autowired
+    @Qualifier("DonacionConverter")
+    private DonacionConverter donacionConverter;
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
     // Conversor de Jugador a JugadorEntity
@@ -34,9 +42,14 @@ public class JugadorConverter implements AttributeConverter<Jugador, JugadorEnti
         e.setInscripcion(attribute.getInscripcion());
         e.setDorsal(attribute.getDorsal());
         e.setFoto(attribute.getFoto());
-        e.setDonaciones(attribute.getDonaciones().stream().
-                map(j -> new DonacionEntity(j)).
-                collect(Collectors.toList()));
+        List<Donacion> donaciones = attribute.getDonaciones();
+        LOG.info(new Gson().toJson(donaciones));
+        e.setDonaciones(donaciones != null
+                ? donaciones
+                        .stream()
+                        .map(j -> this.donacionConverter.convertToDatabaseColumn(j))
+                        .collect(Collectors.toList())
+                : new ArrayList<>());
         return e;
     }
     //Convertir de JugadorEntity a Jugador.
@@ -56,9 +69,14 @@ public class JugadorConverter implements AttributeConverter<Jugador, JugadorEnti
         j.setDorsal(dbData.getDorsal());
         j.setFoto(dbData.getFoto());
         LOG.info("Porque no seteas");
-        j.setDonaciones(dbData.getDonaciones().stream().
-                map(o -> new Donacion(o)).
-                collect(Collectors.toList()));
+        List<DonacionEntity> donaciones = dbData.getDonaciones();
+        j.setDonaciones(donaciones != null
+                ? donaciones
+                    .stream()
+                    .map(d -> this.donacionConverter.convertToEntityAttribute(d))
+                    .collect(Collectors.toList())
+                : new ArrayList<>());
+        LOG.info(j.toString());
         return j;
     }
 }

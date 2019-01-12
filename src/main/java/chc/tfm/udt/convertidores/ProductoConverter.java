@@ -3,7 +3,6 @@ package chc.tfm.udt.convertidores;
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ProductoEntity;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 

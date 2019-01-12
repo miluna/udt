@@ -1,9 +1,7 @@
 package chc.tfm.udt.DTO;
 
-import chc.tfm.udt.entidades.DonacionEntity;
-import chc.tfm.udt.entidades.JugadorEntity;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
 import java.util.Date;
 import java.util.List;
@@ -26,13 +24,12 @@ public class Donacion {
 
     //Constructores.
 
-    public Donacion(Donacion donacion) {
-    }
-
-    public Donacion(DonacionEntity j) {
-    }
-
     public Donacion() {
 
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

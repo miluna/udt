@@ -34,7 +34,7 @@ public class ProductosController implements CrudController<Producto> {
 
     @Override
     @PostMapping(value = "/productos")
-    public ResponseEntity<Producto> createOne(Producto producto) {
+    public ResponseEntity<Producto> createOne(@RequestBody Producto producto) {
         Producto resultado = service.createOne(producto);
         LOG.info("Se han introducido correctamente");
         return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -42,7 +42,7 @@ public class ProductosController implements CrudController<Producto> {
 
     @Override
     @GetMapping(value = "/productos/{id}")
-    public ResponseEntity<Producto> getOne(Long id) {
+    public ResponseEntity<Producto> getOne(@PathVariable Long id) {
         if(id != null){
             Producto resultado = service.findOne(id);
             return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -52,7 +52,7 @@ public class ProductosController implements CrudController<Producto> {
 
     @Override
     @PutMapping(value = "/productos/{id}")
-    public ResponseEntity<Producto> updateOne(Long id, Producto producto) {
+    public ResponseEntity<Producto> updateOne(@PathVariable Long id, @RequestBody Producto producto) {
         LOG.info("Estamos en controller.");
         if(id != null && producto != null){
             Producto resultado = service.updateOne(id,producto);

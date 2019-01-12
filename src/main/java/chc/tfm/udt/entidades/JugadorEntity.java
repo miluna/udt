@@ -1,8 +1,10 @@
 package chc.tfm.udt.entidades;
 
 
+import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.Equipo;
 import chc.tfm.udt.DTO.Jugador;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ public class JugadorEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotEmpty
     @Column(name = "dni")
@@ -74,14 +76,12 @@ public class JugadorEntity implements Serializable {
      * CascadeType.All: Con esto conseguimos que si borramos 1 jugador se borren también sus donaciones.
      * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas*/
 
-    @OneToMany(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(targetEntity = DonacionEntity.class)//(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DonacionEntity> donaciones;
 
     //private Equipo equipo;
 
     public JugadorEntity(){}
-    public JugadorEntity(Jugador jugador) {
-    }
 
 
     /**
@@ -96,6 +96,11 @@ public class JugadorEntity implements Serializable {
 // MEtodo que vamos a utilizar para  añadir una sola donación a la lista, al contrario que con el set que añadimos 1 lista.
     public void addDonacion(DonacionEntity donacionEntity){
         donaciones.add(donacionEntity);
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 
 }

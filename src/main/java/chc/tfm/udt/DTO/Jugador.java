@@ -1,9 +1,8 @@
 package chc.tfm.udt.DTO;
 
-import chc.tfm.udt.entidades.JugadorEntity;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +26,13 @@ public class Jugador {
     private Equipo equipo;
     private List<Donacion> donaciones;
 
-    public Jugador(Donacion donacion) {
-    }
-
-    public Jugador(JugadorEntity jugadorEntity) {
-    }
-    public Jugador(ItemDonacion itemDonacion) {
-    }
 
     public Jugador() {
 
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

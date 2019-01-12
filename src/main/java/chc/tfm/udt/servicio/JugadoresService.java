@@ -10,6 +10,7 @@ import chc.tfm.udt.repositorios.IJugadorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class JugadoresService implements CrudService<Jugador> {
 
 
     public JugadoresService (@Qualifier("IJugadorRepository") IJugadorRepository jugadorRepository,
-                             @Qualifier("DonacionesService") CrudService<Donacion> donacionesService,
+                             @Qualifier("DonacionesService") @Lazy CrudService<Donacion> donacionesService,
                              @Qualifier("JugadorConverter") JugadorConverter converter,
                              @Qualifier("DonacionConverter")DonacionConverter donacionConverter){
         this.jugadorRepository = jugadorRepository;
@@ -41,23 +42,27 @@ public class JugadoresService implements CrudService<Jugador> {
     @Override
     public Jugador createOne(Jugador jugador) {
         LOG.info("Recuperamos las donaciones del jugador");
-        List<Donacion> donacions = this.getDonacionesFromJugadores(jugador);
-        jugador.setDonaciones(donacions);
+        List<Donacion> donaciones = this.getDonacionesFromJugadores(jugador);
+        jugador.setDonaciones(donaciones);
         LOG.info("Convertimos el jugador Entity a jugador.");
         JugadorEntity j = converter.convertToDatabaseColumn(jugador);
         JugadorEntity saved = jugadorRepository.save(j);
         Jugador returned = converter.convertToEntityAttribute(saved);
+
         return returned;
     }
 
     @Override
     @Transactional(readOnly = true)
     public Jugador findOne(Long id) {
+        LOG.info("JugadoresService - findOne");
         Jugador resultado = null;
         Optional<JugadorEntity> buscar = jugadorRepository.findById(id);
+        LOG.info("He buscado");
         if(buscar.isPresent()){
             JugadorEntity encontrado = buscar.get();
             resultado = converter.convertToEntityAttribute(encontrado);
+            LOG.info("Find completado: " + resultado.toString());
         }
         return resultado;
     }
@@ -86,7 +91,7 @@ public class JugadoresService implements CrudService<Jugador> {
             // encontrar las donaciones del jugador
             List<DonacionEntity> donacionEntities = findDonacionesFromJugador(jugador);
 
-            encontrado.setDonaciones(donacionEntities);
+           encontrado.setDonaciones(donacionEntities);
 
             // guardar cambios
             JugadorEntity guardado = jugadorRepository.save(encontrado);

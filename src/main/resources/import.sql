@@ -1,4 +1,4 @@
-/* Populate tables */
+/*
 INSERT INTO jugadores (nombre, apellido1,apellido2, mail, inscripcion, dni, dorsal, foto, edad, nacimiento, nacionalidad, telefono) VALUES('Carlos', 'Hernandez','Casares', 'alumnoCicE@masterJava.com', '2017-08-01','111111111A', '1', '', '16','2017-08-01','Espanish','980691434');
 INSERT INTO jugadores (nombre, apellido1,apellido2, mail, inscripcion, dni, dorsal, foto, edad, nacimiento, nacionalidad, telefono) VALUES('John', 'Doe','Jorobado', 'john.doe@gmail.com', '2017-08-02','111111111b', '2', '', '16','2017-08-01','Espanish','980691434');
 INSERT INTO jugadores (nombre, apellido1,apellido2, mail, inscripcion, dni, dorsal, foto, edad, nacimiento, nacionalidad, telefono) VALUES('Linus', 'Torvalds','Jorobado', 'linus.torvalds@gmail.com', '2017-08-03','111111111C', '3', '', '16','2017-08-01','Espanish','980691434');
@@ -45,7 +45,7 @@ INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,2,1)
 INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,3,1);
 INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,4,1);
 INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,5,1);
-INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,6,1);
+INSERT INTO donaciones_items (cantidad, producto_id, donacion_id) VALUES (2,6,1);*/
 
 
 

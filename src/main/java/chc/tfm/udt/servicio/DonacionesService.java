@@ -2,15 +2,18 @@ package chc.tfm.udt.servicio;
 
 import chc.tfm.udt.DTO.Donacion;
 import chc.tfm.udt.DTO.ItemDonacion;
+import chc.tfm.udt.DTO.Jugador;
 import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.ItemDonacionEntity;
 import chc.tfm.udt.convertidores.DonacionConverter;
 import chc.tfm.udt.convertidores.ItemConverter;
+import chc.tfm.udt.entidades.JugadorEntity;
 import chc.tfm.udt.repositorios.IDonacionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,25 +32,34 @@ public class DonacionesService implements CrudService<Donacion> {
     private ItemDonacionesService itemDonacionesService;
     private DonacionConverter converter;
     private ItemConverter itemConverter;
-
+    private JugadoresService jugadoresService;
 
     @Autowired
     public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
                              @Qualifier("DonacionConverter") DonacionConverter converter,
                              @Qualifier("ItemConverter")ItemConverter itemConverter,
-                             @Qualifier("ItemDonacionesService") ItemDonacionesService itemDonacionesService)
+                             @Qualifier("ItemDonacionesService") ItemDonacionesService itemDonacionesService,
+                             @Qualifier("JugadoresService") @Lazy JugadoresService jugadoresService)
     {
         this.donacionRepository = donacionRepository;
         this.converter = converter;
         this.itemConverter = itemConverter;
         this.itemDonacionesService = itemDonacionesService;
+        this.jugadoresService = jugadoresService;
     }
 
     @Override
     public Donacion createOne(Donacion donacion) {
         LOG.info("LLegamos al servicio");
+        // recuperar datos del jugador
+        Jugador recuperado = jugadoresService.findOne(donacion.getJugador().getId());
+        donacion.setJugador(recuperado);
         DonacionEntity d = converter.convertToDatabaseColumn(donacion);
+
         LOG.info("Convertimos a ENTITY");
+        LOG.info(d.toString());
+
+
         DonacionEntity saved = donacionRepository.save(d);
         LOG.info("Guardamos en la base de datos.");
         Donacion returned = converter.convertToEntityAttribute(saved);
@@ -70,6 +82,7 @@ public class DonacionesService implements CrudService<Donacion> {
     @Transactional
         public Donacion updateOne(Long id, Donacion donacion) {
         Donacion resultado = null;
+
         Optional<DonacionEntity> buscar = donacionRepository.findById(id);
         if(buscar.isPresent()){
             DonacionEntity encontrado = buscar.get();
@@ -80,6 +93,7 @@ public class DonacionesService implements CrudService<Donacion> {
             encontrado.setCreateAt(donacion.getCreateAt());
             if(encontrado.getId() != null){
                 //encontrado.setJugadorEntity(donacion.getJugador());
+
             }
 
             //Encontrar los items de cada donacion

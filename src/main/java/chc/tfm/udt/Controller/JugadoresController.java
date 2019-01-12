@@ -30,7 +30,7 @@ public class JugadoresController implements CrudController<Jugador> {
 
     @Override
     @PostMapping(value = "/jugadores")
-    public ResponseEntity<Jugador> createOne(Jugador jugador) {
+    public ResponseEntity<Jugador> createOne(@RequestBody Jugador jugador) {
 
         Jugador resultado = service.createOne(jugador);
         LOG.info("Introducir datos correctos");
@@ -49,7 +49,7 @@ public class JugadoresController implements CrudController<Jugador> {
 
     @Override
     @PutMapping(value = "/jugadores/{id}")
-    public ResponseEntity<Jugador> updateOne(@PathVariable Long id, Jugador jugador) {
+    public ResponseEntity<Jugador> updateOne(@PathVariable Long id, @RequestBody Jugador jugador) {
         if(id != null && jugador !=null){
             Jugador resultado = service.updateOne(id,jugador);
             return new ResponseEntity<>(resultado, HttpStatus.OK);
@@ -60,7 +60,7 @@ public class JugadoresController implements CrudController<Jugador> {
 
     @Override
     @DeleteMapping(value = "/jugadores{id}")
-    public ResponseEntity<HttpStatus> deleteOne(Long id) {
+    public ResponseEntity<HttpStatus> deleteOne(@PathVariable Long id) {
         if(id != null){
             Boolean resultado = service.deleteOne(id);
             if (resultado) return new ResponseEntity<>(HttpStatus.OK);

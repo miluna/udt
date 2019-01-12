@@ -28,7 +28,7 @@ public class DonacionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String descripcion;
@@ -41,7 +41,7 @@ public class DonacionEntity implements Serializable {
      * Muchas Donaciones un solo jugador.
      * Existe una relación bidireccional.
      */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}) // Solo se realiza la consulta cuando se invoca al metodo
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = JugadorEntity.class) // Solo se realiza la consulta cuando se invoca al metodo
    private JugadorEntity jugadorEntity;
     /**
      * Una donación contiene muchos itemsDonaciónEntity.
@@ -55,26 +55,16 @@ public class DonacionEntity implements Serializable {
 
     //Constructores
 
-    public DonacionEntity(Donacion donacion){
-    }
-
-    public DonacionEntity(ItemDonacion itemDonacion){
-    }
-    public DonacionEntity(JugadorEntity jugadorEntity){
-    }
-    public DonacionEntity(Jugador jugador){
-    }
-
     public DonacionEntity() {
 
     }
 
 
     //Metodo que usaremos para persistir la fecha justn en el momento de crear la claes
-    @PrePersist
-    public void prePersist() {
-        createAt = new Date();
-    }
+//    @PrePersist
+//    public void prePersist() {
+//        createAt = new Date();
+//    }
 
 
     // MEtodo que vamos a utilizar para  añadir un solo item a la lista, al contrario que con el set que añadimos 1 lista.

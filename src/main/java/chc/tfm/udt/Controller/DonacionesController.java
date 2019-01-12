@@ -29,8 +29,9 @@ public class DonacionesController implements CrudController<Donacion> {
     }
 
     @PostMapping(value = "/donaciones")
-    public ResponseEntity<Donacion> createOne(Donacion donacion) {
+    public ResponseEntity<Donacion> createOne(@RequestBody Donacion donacion) {
         LOG.info("Entramos  en el controller");
+        LOG.info(donacion.toString());
         Donacion result = service.createOne(donacion);
        LOG.info("Respeusta del servicio");
         return new ResponseEntity<>(result, HttpStatus.OK);

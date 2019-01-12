@@ -22,7 +22,7 @@ public class ItemDonacionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private Integer cantidad;
@@ -35,9 +35,6 @@ public class ItemDonacionEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     private ProductoEntity productoEntity;
-
-    public ItemDonacionEntity(ItemDonacion itemDonacion) {
-    }
 
     public ItemDonacionEntity() {
 

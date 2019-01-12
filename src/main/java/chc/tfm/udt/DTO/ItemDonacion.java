@@ -1,9 +1,8 @@
 package chc.tfm.udt.DTO;
 
-import chc.tfm.udt.entidades.ItemDonacionEntity;
+import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -15,10 +14,12 @@ public class ItemDonacion {
 
     private Producto producto;
 
-    public ItemDonacion(ItemDonacionEntity itemDonacionEntity){
-    }
-
     public ItemDonacion() {
 
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }
