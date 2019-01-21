@@ -3,7 +3,6 @@ package chc.tfm.udt.entidades;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +38,7 @@ public class DonacionEntity {
      * Existe una relación bidireccional.
      */
     @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = JugadorEntity.class)
+    @JoinColumn(name = "jugador_id", referencedColumnName = "id")
     // Solo se realiza la consulta cuando se invoca al metodo
     private JugadorEntity jugadorEntity;
 
