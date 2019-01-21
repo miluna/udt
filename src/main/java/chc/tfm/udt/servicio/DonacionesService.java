@@ -7,8 +7,7 @@ import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.ItemDonacionEntity;
 import chc.tfm.udt.convertidores.DonacionConverter;
 import chc.tfm.udt.convertidores.ItemConverter;
-import chc.tfm.udt.entidades.JugadorEntity;
-import chc.tfm.udt.repositorios.IDonacionRepository;
+import chc.tfm.udt.repositorios.DonacionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class DonacionesService implements CrudService<Donacion> {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private IDonacionRepository donacionRepository;
+    private DonacionRepository donacionRepository;
     private ItemDonacionesService itemDonacionesService;
     private DonacionConverter converter;
     private ItemConverter itemConverter;
     private JugadoresService jugadoresService;
 
     @Autowired
-    public DonacionesService(@Qualifier("IDonacionRepository") IDonacionRepository donacionRepository,
+    public DonacionesService(@Qualifier("IDonacionRepository") DonacionRepository donacionRepository,
                              @Qualifier("DonacionConverter") DonacionConverter converter,
                              @Qualifier("ItemConverter")ItemConverter itemConverter,
                              @Qualifier("ItemDonacionesService") ItemDonacionesService itemDonacionesService,

@@ -25,7 +25,6 @@ public class Jugador {
     private Date inscripcion;
     private String foto;
     private String dorsal;
-    private Equipo equipo;
     private List<Donacion> donaciones;
 
     @Override

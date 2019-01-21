@@ -6,7 +6,7 @@ import chc.tfm.udt.entidades.DonacionEntity;
 import chc.tfm.udt.entidades.JugadorEntity;
 import chc.tfm.udt.convertidores.DonacionConverter;
 import chc.tfm.udt.convertidores.JugadorConverter;
-import chc.tfm.udt.repositorios.IJugadorRepository;
+import chc.tfm.udt.repositorios.JugadorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,14 +22,14 @@ import java.util.stream.Collectors;
 public class JugadoresService implements CrudService<Jugador> {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private IJugadorRepository jugadorRepository;
+    private JugadorRepository jugadorRepository;
     private CrudService<Donacion> donacionesService;
     private JugadorConverter converter;
     private DonacionConverter donacionConverter;
 
 
 
-    public JugadoresService (@Qualifier("IJugadorRepository") IJugadorRepository jugadorRepository,
+    public JugadoresService (@Qualifier("JugadorRepository") JugadorRepository jugadorRepository,
                              @Qualifier("DonacionesService") @Lazy CrudService<Donacion> donacionesService,
                              @Qualifier("JugadorConverter") JugadorConverter converter,
                              @Qualifier("DonacionConverter")DonacionConverter donacionConverter){

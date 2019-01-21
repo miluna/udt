@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository(value = "IDonacionRepository")
-public interface IDonacionRepository extends JpaRepository<DonacionEntity, Long> {
+public interface DonacionRepository extends JpaRepository<DonacionEntity, Long> {
 
 }

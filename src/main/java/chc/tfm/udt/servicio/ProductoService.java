@@ -3,7 +3,7 @@ package chc.tfm.udt.servicio;
 import chc.tfm.udt.DTO.Producto;
 import chc.tfm.udt.entidades.ProductoEntity;
 import chc.tfm.udt.convertidores.ProductoConverter;
-import chc.tfm.udt.repositorios.IProductoRepository;
+import chc.tfm.udt.repositorios.ProductoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 public class ProductoService implements CrudService<Producto> {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    private IProductoRepository iProductoRepository;
+    private ProductoRepository productoRepository;
     private ProductoConverter productoConverter;
 
-    public ProductoService(@Qualifier(value = "IProductosRepository") IProductoRepository iProductoRepository,
+    public ProductoService(@Qualifier(value = "ProductoRepository") ProductoRepository productoRepository,
                            @Qualifier(value = "ProductoConverter") ProductoConverter productoConverter) {
-        this.iProductoRepository = iProductoRepository;
+        this.productoRepository = productoRepository;
         this.productoConverter = productoConverter;
     }
 
     @Override
     public Producto createOne(Producto producto) {
         ProductoEntity pe = productoConverter.convertToDatabaseColumn(producto);
-        ProductoEntity saved = iProductoRepository.save(pe);
+        ProductoEntity saved = productoRepository.save(pe);
         Producto returned = productoConverter.convertToEntityAttribute(saved);
         return returned;
     }
@@ -39,7 +39,7 @@ public class ProductoService implements CrudService<Producto> {
     @Transactional (readOnly = true)
     public Producto findOne(Long id) {
         Producto resultado = null;
-        Optional<ProductoEntity> buscar = iProductoRepository.findById(id);
+        Optional<ProductoEntity> buscar = productoRepository.findById(id);
         if(buscar.isPresent()){
             ProductoEntity encontrado = buscar.get();
             resultado = productoConverter.convertToEntityAttribute(encontrado);
@@ -51,7 +51,7 @@ public class ProductoService implements CrudService<Producto> {
     public Producto updateOne(Long id, Producto producto) {
         LOG.info("Entramos en update");
         Producto resultado = null;
-        Optional<ProductoEntity> buscar = iProductoRepository.findById(id);
+        Optional<ProductoEntity> buscar = productoRepository.findById(id);
         if(buscar.isPresent()){
             ProductoEntity encontrado = buscar.get();
 
@@ -59,7 +59,7 @@ public class ProductoService implements CrudService<Producto> {
             encontrado.setPrecio(producto.getPrecio());
             encontrado.setCreateAt(producto.getCreateAt());
 
-            ProductoEntity guardado = iProductoRepository.save(encontrado);
+            ProductoEntity guardado = productoRepository.save(encontrado);
             resultado = productoConverter.convertToEntityAttribute(guardado);
         }
         return resultado;
@@ -67,8 +67,8 @@ public class ProductoService implements CrudService<Producto> {
 
     @Override
     public Boolean deleteOne(Long id) {
-        if(iProductoRepository.findById(id).isPresent()){
-            iProductoRepository.deleteById(id);
+        if(productoRepository.findById(id).isPresent()){
+            productoRepository.deleteById(id);
             return true;
         }else{
             return false;
@@ -77,7 +77,7 @@ public class ProductoService implements CrudService<Producto> {
 
     @Override
     public List<Producto> findAll() {
-        List<Producto> resultado = iProductoRepository.findAll().
+        List<Producto> resultado = productoRepository.findAll().
                 stream().
                 map(entity -> productoConverter.convertToEntityAttribute(entity)).
                 collect(Collectors.toList());
