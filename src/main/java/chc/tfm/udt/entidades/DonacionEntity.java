@@ -48,8 +48,8 @@ public class DonacionEntity {
      * puesto que es una relación unidireccional.
      * Hay que crear el campo donacion_id en la tabla  en base datos no en el Entity.
      */
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "donacion_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = ItemDonacionEntity.class)
+    @JoinColumn(name = "item_id", referencedColumnName = "id")
     private List<ItemDonacionEntity> items;
 
 

@@ -86,8 +86,9 @@ public class JugadorEntity {
      * mappedBy: Mapea las tablas en ambos sentidos creando las llaves foraneas en ambas tablas
      */
 
-    @OneToMany(targetEntity = DonacionEntity.class)
+    @OneToMany(targetEntity = DonacionEntity.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //(mappedBy = "jugadorEntity",fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "donacion_id", referencedColumnName = "id")
     private List<DonacionEntity> donaciones;
 
 

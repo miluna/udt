@@ -29,8 +29,8 @@ public class ItemDonacionEntity {
      * si no lo especificamos
      * ItemDonaciónEntity , tiene una relación unidireccional con EquipaciónEntity, por eso unicamente se especifica aqui la relación.
      */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "producto_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = ProductoEntity.class)
+    @JoinColumn(name = "producto_id", referencedColumnName = "id")
     private ProductoEntity productoEntity;
 
 }
