@@ -3,10 +3,12 @@ package chc.tfm.udt.DTO;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Donacion {
 
@@ -21,12 +23,6 @@ public class Donacion {
     private Jugador jugador;
 
     private List<ItemDonacion> items;
-
-    //Constructores.
-
-    public Donacion() {
-
-    }
 
     @Override
     public String toString() {

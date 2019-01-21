@@ -64,7 +64,7 @@ public class ProductosController implements CrudController<Producto> {
 
     @Override
     @DeleteMapping(value = "/productos/{id}")
-    public ResponseEntity<HttpStatus> deleteOne(Long id) {
+    public ResponseEntity<HttpStatus> deleteOne(@PathVariable Long id) {
         if(id != null){
             Boolean resultado = service.deleteOne(id);
             if(resultado) return new ResponseEntity<>(HttpStatus.OK);

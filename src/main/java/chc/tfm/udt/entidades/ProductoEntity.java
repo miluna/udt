@@ -1,41 +1,40 @@
 package chc.tfm.udt.entidades;
 
-import chc.tfm.udt.DTO.Producto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Clase Entity que se comunica con la base de datos para trabajar con los productos relacionados con cada jugador.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "productos")
-public class ProductoEntity implements Serializable {
+public class ProductoEntity {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "precio")
     private Double precio;
+
     @Temporal(TemporalType.DATE)
     @Column(name = "create_at")
     private Date createAt;
 
     //Metodo que usaremos para persistir la fecha justo en el momento de crear la claes
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         createAt = new Date();
     }
-
-    public ProductoEntity(){}
 
 }

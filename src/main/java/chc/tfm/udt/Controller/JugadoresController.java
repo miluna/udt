@@ -59,7 +59,7 @@ public class JugadoresController implements CrudController<Jugador> {
     }
 
     @Override
-    @DeleteMapping(value = "/jugadores{id}")
+    @DeleteMapping(value = "/jugadores/{id}")
     public ResponseEntity<HttpStatus> deleteOne(@PathVariable Long id) {
         if(id != null){
             Boolean resultado = service.deleteOne(id);

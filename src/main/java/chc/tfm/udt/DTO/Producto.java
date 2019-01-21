@@ -3,9 +3,11 @@ package chc.tfm.udt.DTO;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Producto {
 
@@ -16,9 +18,6 @@ public class Producto {
     private Double precio;
 
     private Date createAt;
-
-
-    public Producto (){}
 
     @Override
     public String toString() {

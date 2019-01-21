@@ -1,16 +1,10 @@
 package chc.tfm.udt.entidades;
 
-import chc.tfm.udt.DTO.Donacion;
-import chc.tfm.udt.DTO.ItemDonacion;
-import chc.tfm.udt.DTO.Jugador;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,29 +14,34 @@ import java.util.List;
  * por tanto estará implementado en el registro del jugador.
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "donaciones")
-public class DonacionEntity implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class DonacionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "observacion")
     private String observacion;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "create_at")
     private Date createAt;
+
     /**
      * Muchas Donaciones un solo jugador.
      * Existe una relación bidireccional.
      */
-    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = JugadorEntity.class) // Solo se realiza la consulta cuando se invoca al metodo
-   private JugadorEntity jugadorEntity;
+    @ManyToOne(cascade = {CascadeType.ALL}, targetEntity = JugadorEntity.class)
+    // Solo se realiza la consulta cuando se invoca al metodo
+    private JugadorEntity jugadorEntity;
+
     /**
      * Una donación contiene muchos itemsDonaciónEntity.
      * JoinColum: Indicamos a la base de datos cual es la llave foranea de la relación ,
@@ -53,33 +52,11 @@ public class DonacionEntity implements Serializable {
     @JoinColumn(name = "donacion_id")
     private List<ItemDonacionEntity> items;
 
-    //Constructores
-
-    public DonacionEntity() {
-
-    }
-
 
     //Metodo que usaremos para persistir la fecha justn en el momento de crear la claes
-//    @PrePersist
-//    public void prePersist() {
-//        createAt = new Date();
-//    }
-
-
-    // MEtodo que vamos a utilizar para  añadir un solo item a la lista, al contrario que con el set que añadimos 1 lista.
-    public void addItemDonacion(ItemDonacionEntity item) {
-        this.items.add(item);
-
-    }
-
-    public Double getTotal() {
-        Double total = 0.0;
-        int size = items.size();
-        for (int i = 0; i < size; i++) {
-            total += items.get(i).calcularValor();
-        }
-        return total;
+    @PrePersist
+    public void prePersist() {
+        createAt = new Date();
     }
 
 }

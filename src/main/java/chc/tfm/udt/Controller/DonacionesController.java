@@ -46,7 +46,7 @@ public class DonacionesController implements CrudController<Donacion> {
     }
 
     @PutMapping(value = "/donaciones/{id}")
-    public ResponseEntity<Donacion> updateOne(@PathVariable Long id, Donacion donacion) {
+    public ResponseEntity<Donacion> updateOne(@PathVariable Long id, @RequestBody Donacion donacion) {
         if (id != null && donacion != null) {
             Donacion result = service.updateOne(id, donacion);
             return new ResponseEntity<>(result, HttpStatus.OK);
